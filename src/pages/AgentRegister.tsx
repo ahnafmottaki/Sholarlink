@@ -145,7 +145,7 @@ const AgentRegister = () => {
                 <Button
                   variant="link"
                   className="p-0"
-                  onClick={() => navigate("/agent/login")}
+                  onClick={() => navigate("/agentLogin")}
                 >
                   Login here
                 </Button>

@@ -59,7 +59,7 @@ const Login = ({ as }: LoginProp) => {
             {as === "agent" && (
               <p className="text-sm text-center text-muted-foreground">
                 Don't have an account?{" "}
-                <Link to="/agent/register">
+                <Link to="/agentRegister">
                   <Button variant="link" className="p-0">
                     Register here
                   </Button>

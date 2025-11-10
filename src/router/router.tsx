@@ -5,21 +5,25 @@ import { createBrowserRouter } from "react-router";
 import Login from "@/pages/Login";
 import AgentDashboard from "@/pages/AgentDashboard";
 import AgentLayout from "@/Layout/AgentLayout";
+import CreateStudent from "@/pages/CreateStudent";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     children: [
       { index: true, element: <Landing /> },
-      { path: "agent/login", element: <Login as="agent" /> },
-      { path: "admin/login", element: <Login as="admin" /> },
-      { path: "agent/register", element: <AgentRegister /> },
+      { path: "agentLogin", element: <Login as="agent" /> },
+      { path: "adminLogin", element: <Login as="admin" /> },
+      { path: "agentRegister", element: <AgentRegister /> },
     ],
   },
   {
-    path: "/agent/dashboard",
+    path: "/agent",
     element: <AgentLayout />,
-    children: [{ index: true, element: <AgentDashboard /> }],
+    children: [
+      { index: true, element: <AgentDashboard /> },
+      { path: "createStudent", element: <CreateStudent /> },
+    ],
   },
 ]);
 

@@ -10,8 +10,8 @@ import { Outlet } from "react-router";
 
 const AgentLayout = () => {
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/agent/dashboard" },
-    { icon: UserPlus, label: "Create Profile", path: "/agent/create-student" },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/agent" },
+    { icon: UserPlus, label: "Create Profile", path: "/agent/createStudent" },
     { icon: Users, label: "My Students", path: "/agent/students" },
     { icon: Wallet, label: "Wallet", path: "/agent/wallet" },
     { icon: Settings, label: "Settings", path: "/agent/settings" },

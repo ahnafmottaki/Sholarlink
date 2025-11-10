@@ -8,7 +8,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "../ui/button";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import React from "react";
 import { useTheme } from "@/context/theme/theme-context";
 
@@ -62,15 +62,21 @@ const Sidebar: React.FC<SideBarProps> = ({ menuItems }) => {
 
         <nav className="flex-1 p-4 space-y-2">
           {menuItems.map((item) => (
-            <Link key={item.path} to={item.path}>
-              <Button
-                variant="ghost"
-                className="w-full justify-start gap-3 hover:bg-primary hover:text-primary-foreground"
-              >
+            <NavLink
+              end
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                `block hover:bg-accent/50 hover:text-accent-foreground  ${
+                  isActive ? "bg-accent/50 text-accent-foreground" : ""
+                }`
+              }
+            >
+              <Button variant={"none"} className=" w-full justify-start gap-3">
                 <item.icon className="h-5 w-5" />
                 {item.label}
               </Button>
-            </Link>
+            </NavLink>
           ))}
         </nav>
 
