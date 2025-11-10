@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Users } from "lucide-react";
+import { Link } from "react-router";
 
 const HeroSection = () => {
   return (
@@ -24,11 +25,11 @@ const HeroSection = () => {
                 Become an Agent
               </Button>
             </a>
-            <a>
+            <Link to="/agentLogin">
               <Button size="lg" variant="outline">
                 Admin Login
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
