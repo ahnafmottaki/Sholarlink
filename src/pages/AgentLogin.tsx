@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "react-router";
 
 const AgentLogin = () => {
   return (
@@ -46,9 +47,11 @@ const AgentLogin = () => {
 
             <p className="text-sm text-center text-muted-foreground">
               Don't have an account?{" "}
-              <Button variant="link" className="p-0">
-                Register here
-              </Button>
+              <Link to="/agentRegister">
+                <Button variant="link" className="p-0">
+                  Register here
+                </Button>
+              </Link>
             </p>
           </form>
         </CardContent>
