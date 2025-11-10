@@ -19,13 +19,13 @@ const HeroSection = () => {
             their path to world-class education
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <a>
+            <Link to="/agentRegister">
               <Button size="lg" className="gap-2">
                 <Users className="h-5 w-5" />
                 Become an Agent
               </Button>
-            </a>
-            <Link to="/agentLogin">
+            </Link>
+            <Link to="/adminLogin">
               <Button size="lg" variant="outline">
                 Admin Login
               </Button>

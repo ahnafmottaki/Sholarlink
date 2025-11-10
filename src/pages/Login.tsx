@@ -9,15 +9,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router";
-
-const AgentLogin = () => {
+interface LoginProp {
+  as: "agent" | "admin";
+}
+const Login = ({ as }: LoginProp) => {
   return (
     <div className="container mx-auto flex items-center justify-center px-4 py-12 min-h-[calc(100vh)] max-w-md">
       <Card className="w-full">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Agent Login</CardTitle>
+          <CardTitle className="text-2xl">
+            {as.at(0)?.toUpperCase() + as.slice(1)} Login
+          </CardTitle>
           <CardDescription>
-            Enter your credentials to access your dashboard
+            {as === "admin"
+              ? "Access the admin dashboard to manage agents and applications"
+              : "Enter your credentials to access your dashboard"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -27,7 +33,9 @@ const AgentLogin = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="agent@example.com"
+                placeholder={
+                  as === "admin" ? "admin@example.com" : "agent@example.com"
+                }
                 required
               />
             </div>
@@ -37,9 +45,11 @@ const AgentLogin = () => {
               <Input id="password" type="password" required />
             </div>
 
-            <Button variant="link" className="p-0 h-auto text-sm">
-              Forgot password?
-            </Button>
+            {as === "agent" && (
+              <Button variant="link" className="p-0 h-auto text-sm">
+                Forgot password?
+              </Button>
+            )}
 
             <Button type="submit" className="w-full" size="lg">
               Login
@@ -60,4 +70,4 @@ const AgentLogin = () => {
   );
 };
 
-export default AgentLogin;
+export default Login;

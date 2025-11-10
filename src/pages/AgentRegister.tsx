@@ -32,7 +32,7 @@ const AgentRegister = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setTimeout(() => navigate("/agent/login"), 2000);
+    setTimeout(() => navigate("/agentLogin"), 2000);
   };
 
   return (
