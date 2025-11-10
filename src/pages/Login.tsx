@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { MoveRight } from "lucide-react";
 import { Link } from "react-router";
 interface LoginProp {
   as: "agent" | "admin";
@@ -52,14 +53,23 @@ const Login = ({ as }: LoginProp) => {
             )}
 
             <Button type="submit" className="w-full" size="lg">
-              Login
+              {as === "admin" ? "Login as Admin" : "Login"}
             </Button>
 
-            <p className="text-sm text-center text-muted-foreground">
-              Don't have an account?{" "}
-              <Link to="/agentRegister">
-                <Button variant="link" className="p-0">
-                  Register here
+            {as === "agent" && (
+              <p className="text-sm text-center text-muted-foreground">
+                Don't have an account?{" "}
+                <Link to="/agent/register">
+                  <Button variant="link" className="p-0">
+                    Register here
+                  </Button>
+                </Link>
+              </p>
+            )}
+            <p className=" text-sm text-center text-muted-foreground">
+              <Link to="/" className="hover:underline">
+                <Button variant="link" className="p-0 ">
+                  Go to Home <MoveRight className="text-xl text-primary" />
                 </Button>
               </Link>
             </p>

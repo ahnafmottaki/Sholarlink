@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload } from "lucide-react";
+import { MoveRight, Upload } from "lucide-react";
 
 const AgentRegister = () => {
   const navigate = useNavigate();
@@ -145,10 +145,17 @@ const AgentRegister = () => {
                 <Button
                   variant="link"
                   className="p-0"
-                  onClick={() => navigate("/agentLogin")}
+                  onClick={() => navigate("/agent/login")}
                 >
                   Login here
                 </Button>
+              </p>
+              <p className=" text-sm text-center text-muted-foreground">
+                <Link to="/" className="hover:underline">
+                  <Button variant="link" className="p-0 ">
+                    Go to Home <MoveRight className="text-xl text-primary" />
+                  </Button>
+                </Link>
               </p>
             </form>
           </CardContent>
