@@ -10,13 +10,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Upload } from "lucide-react";
+import DropFile from "@/components/custom/DropFile";
+import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 
 const CreateStudent = () => {
   const [activeTab, setActiveTab] = useState("personal");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(e.target);
     e.preventDefault();
+    const studentProfile = Object.fromEntries(
+      new FormData(e.currentTarget).entries()
+    );
+    console.log(studentProfile);
   };
 
   return (
@@ -49,11 +55,21 @@ const CreateStudent = () => {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-3">
                       <Label htmlFor="firstName">First Name</Label>
-                      <Input id="firstName" placeholder="John" required />
+                      <Input
+                        id="firstName"
+                        name="firstName"
+                        placeholder="John"
+                        required
+                      />
                     </div>
                     <div className="space-y-3">
                       <Label htmlFor="lastName">Last Name</Label>
-                      <Input id="lastName" placeholder="Doe" required />
+                      <Input
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Doe"
+                        required
+                      />
                     </div>
                   </div>
                   <div className="space-y-3">
@@ -61,6 +77,7 @@ const CreateStudent = () => {
                     <Input
                       id="email"
                       type="email"
+                      name="email"
                       placeholder="john.doe@example.com"
                       required
                     />
@@ -70,13 +87,14 @@ const CreateStudent = () => {
                     <Input
                       id="phone"
                       type="tel"
+                      name="phone"
                       placeholder="+1 (555) 000-0000"
                       required
                     />
                   </div>
                   <div className="space-y-3">
                     <Label htmlFor="dob">Date of Birth</Label>
-                    <Input id="dob" type="date" required />
+                    <Input id="dob" name="dob" type="date" required />
                   </div>
                 </TabsContent>
 
@@ -85,6 +103,7 @@ const CreateStudent = () => {
                     <Label htmlFor="gpa">GPA</Label>
                     <Input
                       id="gpa"
+                      name="gpa"
                       type="number"
                       step="0.01"
                       placeholder="3.8"
@@ -93,16 +112,27 @@ const CreateStudent = () => {
                   </div>
                   <div className="space-y-3">
                     <Label htmlFor="sat">SAT Score (Optional)</Label>
-                    <Input id="sat" type="number" placeholder="1450" />
+                    <Input
+                      id="sat"
+                      name="sat"
+                      type="number"
+                      placeholder="1450"
+                    />
                   </div>
                   <div className="space-y-3">
                     <Label htmlFor="major">Intended Major</Label>
-                    <Input id="major" placeholder="Computer Science" required />
+                    <Input
+                      id="major"
+                      name="major"
+                      placeholder="Computer Science"
+                      required
+                    />
                   </div>
                   <div className="space-y-3">
                     <Label htmlFor="university">Target University</Label>
                     <Input
                       id="university"
+                      name="university"
                       placeholder="Harvard University"
                       required
                     />
@@ -112,65 +142,51 @@ const CreateStudent = () => {
                 <TabsContent value="documents" className="space-y-8">
                   <div className="space-y-3">
                     <Label>Passport Copy</Label>
-                    <div className="border-2 border-dashed rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
-                      <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                      <p className="text-sm text-muted-foreground">
-                        Click to upload passport
-                      </p>
-                      <Input type="file" className="hidden" />
-                    </div>
+                    <DropFile name="passport" fnWithFile={console.log} />
                   </div>
                   <div className="space-y-3">
                     <Label>Academic Transcripts</Label>
-                    <div className="border-2 border-dashed rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
-                      <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                      <p className="text-sm text-muted-foreground">
-                        Click to upload transcripts
-                      </p>
-                      <Input type="file" className="hidden" multiple />
-                    </div>
+                    <DropFile name="transcripts" fnWithFile={console.log} />
                   </div>
                   <div className="space-y-3">
                     <Label>Student Photo</Label>
-                    <div className="border-2 border-dashed rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
-                      <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                      <p className="text-sm text-muted-foreground">
-                        Click to upload photo
-                      </p>
-                      <Input type="file" className="hidden" accept="image/*" />
-                    </div>
+                    <DropFile name="photo" fnWithFile={console.log} />
                   </div>
                 </TabsContent>
               </Tabs>
 
               <div className="mt-6 flex gap-4">
-                {activeTab !== "personal" && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                      const tabs = ["personal", "academic", "documents"];
-                      const currentIndex = tabs.indexOf(activeTab);
-                      setActiveTab(tabs[currentIndex - 1]);
-                    }}
-                  >
-                    Previous
-                  </Button>
-                )}
-                {activeTab !== "documents" ? (
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      const tabs = ["personal", "academic", "documents"];
-                      const currentIndex = tabs.indexOf(activeTab);
-                      setActiveTab(tabs[currentIndex + 1]);
-                    }}
-                  >
-                    Next
-                  </Button>
-                ) : (
-                  <Button type="submit">Create Profile</Button>
-                )}
+                <Button
+                  disabled={activeTab === "personal"}
+                  type="button"
+                  className={`bg-accent text-accent-foreground hover:bg-accent/70 hover:text-accent-foreground/70 disabled:bg-secondary disabled:text-secondary-foreground`}
+                  onClick={() => {
+                    const tabs = ["personal", "academic", "documents"];
+                    const currentIndex = tabs.indexOf(activeTab);
+                    setActiveTab(tabs[currentIndex - 1]);
+                  }}
+                >
+                  <ArrowLeftCircle />
+                </Button>
+                <Button
+                  disabled={activeTab === "documents"}
+                  className={`bg-accent text-accent-foreground hover:bg-accent/70 hover:text-accent-foreground/70 disabled:bg-secondary disabled:text-secondary-foreground`}
+                  type="button"
+                  onClick={() => {
+                    const tabs = ["personal", "academic", "documents"];
+                    const currentIndex = tabs.indexOf(activeTab);
+                    setActiveTab(tabs[currentIndex + 1]);
+                  }}
+                >
+                  <ArrowRightCircle />
+                </Button>
+                <Button
+                  disabled={activeTab !== "documents"}
+                  className="ml-auto"
+                  type="submit"
+                >
+                  Create Profile
+                </Button>
               </div>
             </form>
           </CardContent>

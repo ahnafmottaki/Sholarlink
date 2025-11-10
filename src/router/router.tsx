@@ -11,6 +11,10 @@ import AgentSettings from "@/pages/AgentSettings";
 import AdminLayout from "@/Layout/AdminLayout";
 import AdminDashboard from "@/pages/AdminDashboard";
 import ManageAgents from "@/pages/ManageAgents";
+import ManageStudents from "@/pages/ManageStudents";
+import ViewAgent from "@/pages/ViewAgent";
+import StudentProfile from "@/pages/StudentProfile";
+import NotFound from "@/pages/NotFound";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,6 +34,7 @@ const router = createBrowserRouter([
       { path: "createStudent", element: <CreateStudent /> },
       { path: "wallet", element: <AgentWallet /> },
       { path: "settings", element: <AgentSettings /> },
+      { path: "studentProfile", element: <StudentProfile /> },
     ],
   },
   {
@@ -38,7 +43,13 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminDashboard /> },
       { path: "manageAgents", element: <ManageAgents /> },
+      { path: "manageStudents", element: <ManageStudents /> },
+      { path: "agent", element: <ViewAgent /> },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

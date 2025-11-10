@@ -10,6 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Users, CheckCircle, Clock, XCircle, Download } from "lucide-react";
+import { Link } from "react-router";
 
 const AgentDashboard = () => {
   const stats = [
@@ -138,9 +139,11 @@ const AgentDashboard = () => {
                     )}
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button variant="outline" size="sm">
-                      View Details
-                    </Button>
+                    <Link to={"/agent/StudentProfile"}>
+                      <Button variant="outline" size="sm">
+                        View Details
+                      </Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
