@@ -1,5 +1,6 @@
 import { GraduationCap } from "lucide-react";
 import { ModeToggle } from "@/context/theme/mode-toggle";
+import Footer from "./Footer";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       </header>
       <main>{children}</main>
+      <Footer />
     </div>
   );
 };
