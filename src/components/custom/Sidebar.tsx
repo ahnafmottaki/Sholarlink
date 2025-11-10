@@ -63,9 +63,9 @@ const Sidebar: React.FC<SideBarProps> = ({ menuItems }) => {
         <nav className="flex-1 p-4 space-y-2">
           {menuItems.map((item) => (
             <NavLink
-              end
               key={item.path}
               to={item.path}
+              end
               className={({ isActive }) =>
                 `block hover:bg-accent/50 hover:text-accent-foreground  ${
                   isActive ? "bg-accent/50 text-accent-foreground" : ""

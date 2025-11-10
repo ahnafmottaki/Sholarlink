@@ -7,6 +7,9 @@ import AgentDashboard from "@/pages/AgentDashboard";
 import AgentLayout from "@/Layout/AgentLayout";
 import CreateStudent from "@/pages/CreateStudent";
 import AgentWallet from "@/pages/AgentWallet";
+import AgentSettings from "@/pages/AgentSettings";
+import AdminLayout from "@/Layout/AdminLayout";
+import AdminDashboard from "@/pages/AdminDashboard";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,7 +28,13 @@ const router = createBrowserRouter([
       { index: true, element: <AgentDashboard /> },
       { path: "createStudent", element: <CreateStudent /> },
       { path: "wallet", element: <AgentWallet /> },
+      { path: "settings", element: <AgentSettings /> },
     ],
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [{ index: true, element: <AdminDashboard /> }],
   },
 ]);
 

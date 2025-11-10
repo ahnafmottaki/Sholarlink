@@ -20,7 +20,7 @@ const CreateStudent = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center min-h-screen">
       <div className="max-w-4xl w-full space-y-6">
         <div>
           <h1 className="text-3xl font-bold mb-2">Create Student Profile</h1>
