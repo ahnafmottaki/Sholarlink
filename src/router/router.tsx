@@ -10,6 +10,7 @@ import AgentWallet from "@/pages/AgentWallet";
 import AgentSettings from "@/pages/AgentSettings";
 import AdminLayout from "@/Layout/AdminLayout";
 import AdminDashboard from "@/pages/AdminDashboard";
+import ManageAgents from "@/pages/ManageAgents";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,7 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminLayout />,
-    children: [{ index: true, element: <AdminDashboard /> }],
+    children: [
+      { index: true, element: <AdminDashboard /> },
+      { path: "manageAgents", element: <ManageAgents /> },
+    ],
   },
 ]);
 
