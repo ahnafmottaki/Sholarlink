@@ -25,9 +25,9 @@ const HeroSection = () => {
                 Become an Agent
               </Button>
             </Link>
-            <Link to="/adminLogin">
+            <Link to="/agentLogin">
               <Button size="lg" variant="outline">
-                Admin Login
+                Agent Login
               </Button>
             </Link>
           </div>

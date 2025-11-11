@@ -15,19 +15,29 @@ import { Link } from "react-router";
 const AgentDashboard = () => {
   const stats = [
     {
-      label: "Total Profiles",
+      label: "Total Application",
       value: "24",
       icon: Users,
       color: "text-primary",
     },
-    { label: "Pending", value: "8", icon: Clock, color: "text-warning" },
     {
-      label: "Accepted",
+      label: "Pending Application",
+      value: "8",
+      icon: Clock,
+      color: "text-warning",
+    },
+    {
+      label: "Successful Application",
       value: "14",
       icon: CheckCircle,
       color: "text-success",
     },
-    { label: "Rejected", value: "2", icon: XCircle, color: "text-destructive" },
+    {
+      label: "Rejected Application",
+      value: "2",
+      icon: XCircle,
+      color: "text-destructive",
+    },
   ];
 
   const students = [
