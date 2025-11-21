@@ -1,15 +1,21 @@
 import React, { type ComponentPropsWithoutRef } from "react";
 import { Input } from "../ui/input";
 import { Upload } from "lucide-react";
+import { toast } from "sonner";
 
 type DropFileProp = ComponentPropsWithoutRef<"input"> & {
-  fnWithFile: (file: File) => void;
+  fnWithFile?: (file: File) => void;
 };
 
 const DropFile: React.FC<DropFileProp> = ({ fnWithFile, ...props }) => {
   const [isDragOver, setIsDragOver] = React.useState<boolean>(false);
   const [file, setFile] = React.useState<File | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  React.useEffect(() => {
+    if (file && fnWithFile) {
+      fnWithFile(file);
+    }
+  }, [file, fnWithFile]);
 
   const onDragOver = (e: React.DragEvent) => {
     console.log("drag over");
@@ -25,11 +31,15 @@ const DropFile: React.FC<DropFileProp> = ({ fnWithFile, ...props }) => {
 
   const onDragDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    console.log("drag drop");
     setIsDragOver(false);
     const dropFiles = e.dataTransfer.files;
     if (dropFiles.length > 0) {
       const selectedFile = dropFiles[0];
+      const acceptedType = fileInputRef.current?.accept;
+      if (selectedFile.type !== acceptedType) {
+        toast.error(`Only ${acceptedType} files are allowed`);
+        return;
+      }
       setFile(selectedFile);
       if (fileInputRef.current) {
         const dataTransfer = new DataTransfer();
@@ -53,7 +63,7 @@ const DropFile: React.FC<DropFileProp> = ({ fnWithFile, ...props }) => {
   return (
     <div
       className={`border-2 border-dashed rounded-lg p-6 text-center h-28 flex flex-col items-center justify-center transition-colors cursor-pointer ${
-        isDragOver ? "border-primary bg-primary/10" : ""
+        isDragOver || file ? "border-primary bg-primary/10" : ""
       }`}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}

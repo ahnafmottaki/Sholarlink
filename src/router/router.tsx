@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/agent",
+    path: "agent",
     element: <AgentLayout />,
     children: [
       { index: true, element: <AgentDashboard /> },
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/admin",
+    path: "admin",
     element: <AdminLayout />,
     children: [
       { index: true, element: <AdminDashboard /> },
