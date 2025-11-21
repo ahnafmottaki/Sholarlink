@@ -2,6 +2,7 @@ import { GraduationCap } from "lucide-react";
 import { ModeToggle } from "@/context/theme/mode-toggle";
 import Footer from "./Footer";
 import { Link } from "react-router";
+import { Button } from "../ui/button";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -21,6 +22,23 @@ const Layout = ({ children }: LayoutProps) => {
               ScholarLink
             </span>
           </Link>
+          <ul className="flex items-center gap-3">
+            <li>
+              <Button variant={"outline"}>
+                <Link to={"/adminLogin"}>Admin Login</Link>
+              </Button>
+            </li>
+            <li>
+              <Button variant={"outline"}>
+                <Link to={"/agent"}>Agent Dashboard</Link>
+              </Button>
+            </li>
+            <li>
+              <Button variant={"outline"}>
+                <Link to={"/admin"}>Admin Dashboard</Link>
+              </Button>
+            </li>
+          </ul>
           <ModeToggle />
         </div>
       </header>
