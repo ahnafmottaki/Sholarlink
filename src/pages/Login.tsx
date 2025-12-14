@@ -14,6 +14,7 @@ interface LoginProp {
   as: "agent" | "admin";
 }
 const Login = ({ as }: LoginProp) => {
+  const isAdmin = as === "admin";
   return (
     <div className="container mx-auto flex items-center justify-center px-4 py-12 min-h-[calc(100vh)] max-w-md">
       <Card className="w-full">
@@ -22,7 +23,7 @@ const Login = ({ as }: LoginProp) => {
             {as.at(0)?.toUpperCase() + as.slice(1)} Login
           </CardTitle>
           <CardDescription>
-            {as === "admin"
+            {isAdmin
               ? "Access the admin dashboard to manage agents and applications"
               : "Enter your credentials to access your dashboard"}
           </CardDescription>
@@ -30,20 +31,24 @@ const Login = ({ as }: LoginProp) => {
         <CardContent>
           <form className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="username">Username</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder={
-                  as === "admin" ? "admin@example.com" : "agent@example.com"
-                }
+                id="username"
+                type="text"
+                placeholder={isAdmin ? "mash" : "john"}
+                defaultValue={isAdmin ? "mash" : "john"}
                 required
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required />
+              <Input
+                id="password"
+                type="password"
+                required
+                defaultValue={"123456"}
+              />
             </div>
 
             {as === "agent" && (
@@ -53,10 +58,10 @@ const Login = ({ as }: LoginProp) => {
             )}
 
             <Button type="submit" className="w-full" size="lg">
-              {as === "admin" ? "Login as Admin" : "Login"}
+              {isAdmin ? "Login as Admin" : "Login"}
             </Button>
 
-            {as === "agent" && (
+            {!isAdmin && (
               <p className="text-sm text-center text-muted-foreground">
                 Don't have an account?{" "}
                 <Link to="/agentRegister">

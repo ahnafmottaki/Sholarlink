@@ -39,9 +39,14 @@ const agentRegisterSchema = z.discriminatedUnion("account_type", [
   organizationSchema,
 ]);
 
-// type Agent = z.infer<typeof agentRegisterSchema>;
+type Agent = z.infer<typeof agentRegisterSchema>;
 
 // type IndividualAgent = z.infer<typeof individualSchema>;
 // type OrganizationAgent = z.infer<typeof organizationSchema>;
 
-export { agentRegisterSchema, organizationSchema, individualSchema };
+export {
+  agentRegisterSchema,
+  organizationSchema,
+  individualSchema,
+  type Agent,
+};

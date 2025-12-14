@@ -16,11 +16,14 @@ import SelectField from "@/components/custom/FormFields/SelectField";
 import TextAreaField from "@/components/custom/FormFields/TextAreaField";
 import { SelectItem } from "@/components/ui/select";
 import { toast } from "sonner";
-import { agentRegisterSchema } from "@/zod-schema/agentRegisterSchema";
+import {
+  agentRegisterSchema,
+  type Agent,
+} from "@/zod-schema/agentRegisterSchema";
 import DOCUMENT_TYPES from "@/constants/document-types";
 import { axiosSecure } from "@/lib/axios";
-import type { AxiosError } from "axios";
-import { createFormData } from "@/lib/utils";
+import { createFormData, parseFormData } from "@/lib/utils";
+import type { FailedResponse, Response } from "@/types/axios";
 
 const Tabs = {
   Profile: "profile",
@@ -38,36 +41,25 @@ const AgentRegister = () => {
   const formRef = React.useRef<HTMLFormElement>(null);
 
   const onFormSubmit = async () => {
-    const studentProfile = Object.fromEntries(
-      new FormData(formRef.current!).entries(),
-    );
-
-    const result = agentRegisterSchema.safeParse(studentProfile);
-
+    const result = parseFormData<Agent>(formRef, agentRegisterSchema);
     if (!result.success) {
-      const message = result.error.issues[0].message;
-      toast.error(message);
+      toast.error(result.error);
       return;
     }
 
-    try {
-      toast.promise(
-        () => axiosSecure.post("/api/register", createFormData(result.data)),
-        {
-          loading: "Registering...",
-          success: (data) => {
-            console.log(data);
-            navigate("/agent");
-            return "Registration successful!";
-          },
-          error: (err: AxiosError<{ error: string }>) => {
-            return err?.response?.data?.error || "An error occurred";
-          },
+    toast.promise(
+      () => axiosSecure.post("/auth/register", createFormData(result.data)),
+      {
+        loading: "Registering...",
+        success: (response: Response) => {
+          navigate("/agent");
+          return response.data.message;
         },
-      );
-    } catch (err) {
-      console.error(err);
-    }
+        error: (err: FailedResponse) => {
+          return err.response?.data.error || "An Error Occurred";
+        },
+      },
+    );
   };
 
   return (
