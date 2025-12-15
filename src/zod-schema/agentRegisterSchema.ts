@@ -1,4 +1,4 @@
-import DOCUMENT_TYPES from "@/constants/document-types";
+import { ACCOUNT_TYPES } from "@/constants/document-types";
 import z from "zod";
 const LoginSchema = z.object({
   username: z.string().min(3, "username is required"),
@@ -17,21 +17,19 @@ const baseAgentSchema = LoginSchema.extend({
       (file) => file.size <= 1024 * 1024 * 2,
       "document must be less than 2MB",
     ),
+  name: z.string().min(3, "full name is required"),
+  email: z.email("invalid email address"),
 });
 
 const individualSchema = baseAgentSchema.extend({
   account_type: z.literal("individual"),
-  full_name: z.string().min(3, "full name is required"),
-  email: z.email("invalid email address"),
-  document_type: z.enum(DOCUMENT_TYPES.individual),
+  document_type: z.enum(Object.keys(ACCOUNT_TYPES.individual)),
 });
 
 const organizationSchema = baseAgentSchema.extend({
   account_type: z.literal("organization"),
-  organization_name: z.string().min(3, "organization name is required"),
-  organization_email: z.email("invalid email address"), // Fixed: use z.string().email()
-  person_in_charge: z.string().min(3, "person in charge is required"),
-  document_type: z.enum(DOCUMENT_TYPES.organization), // Fixed: use z.enum() for array of literals
+  org_name: z.string().min(3, "organization name is required"),
+  document_type: z.enum(Object.keys(ACCOUNT_TYPES.organization)),
 });
 
 // Use discriminated union with account_type as the discriminator
