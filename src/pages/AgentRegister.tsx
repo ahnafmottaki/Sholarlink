@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import {
   Card,
@@ -38,17 +38,22 @@ const AgentRegister = () => {
   const [activeTab, setActiveTab] = React.useState<TabStateProp>(Tabs.Profile);
   const [accountType, setAccountType] =
     React.useState<AccountType>("individual");
-  const formRef = React.useRef<HTMLFormElement>(null);
+  // const formRef = React.useRef<HTMLFormElement>(null);
+  const isProfile = activeTab === "profile";
 
-  const onFormSubmit = async () => {
-    const result = parseFormData<Agent>(formRef, agentRegisterSchema);
+  const onFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const result = parseFormData<Agent>(
+      event.currentTarget,
+      agentRegisterSchema,
+    );
     if (!result.success) {
       toast.error(result.error);
       return;
     }
 
     toast.promise(
-      () => axiosSecure.post("/auth/register", createFormData(result.data)),
+      axiosSecure.post("/auth/register", createFormData(result.data)),
       {
         loading: "Registering...",
         success: (response: Response) => {
@@ -73,7 +78,7 @@ const AgentRegister = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form ref={formRef} className="space-y-4">
+            <form className="space-y-4" onSubmit={onFormSubmit}>
               <section>
                 <div className="grid w-full grid-cols-2 mb-4">
                   {Object.values(Tabs).map((tab) => (
@@ -92,9 +97,7 @@ const AgentRegister = () => {
                     </Button>
                   ))}
                 </div>
-                <section
-                  className={`${activeTab === "profile" ? "" : "hidden"}`}
-                >
+                <section className={`${isProfile ? "" : "hidden"}`}>
                   <FieldGroup>
                     <FieldSet>
                       <InputField
@@ -148,9 +151,7 @@ const AgentRegister = () => {
                   </FieldGroup>
                 </section>
 
-                <section
-                  className={`${activeTab === "account" ? "" : "hidden"}`}
-                >
+                <section className={`${!isProfile ? "" : "hidden"}`}>
                   <FieldGroup>
                     <FieldSet>
                       <SelectField
@@ -256,18 +257,20 @@ const AgentRegister = () => {
               {activeTab === "account" ? (
                 <div className="flex justify-between items-center">
                   <Button
+                    type="button"
                     size={"lg"}
                     variant={"outline"}
                     onClick={() => setActiveTab("profile")}
                   >
                     Previous
                   </Button>
-                  <Button type="button" onClick={onFormSubmit} size="lg">
+                  <Button type="submit" size="lg">
                     Submit for Verification
                   </Button>
                 </div>
               ) : (
                 <Button
+                  type="button"
                   size="lg"
                   variant={"outline"}
                   className="ml-auto block"
@@ -282,6 +285,7 @@ const AgentRegister = () => {
                 <Button
                   variant="link"
                   className="p-0"
+                  type="button"
                   onClick={() => navigate("/agentLogin")}
                 >
                   Login here

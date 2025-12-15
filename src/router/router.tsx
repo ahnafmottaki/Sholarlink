@@ -2,7 +2,6 @@ import RootLayout from "@/Layout/RootLayout";
 import AgentRegister from "@/pages/AgentRegister";
 import Landing from "@/pages/Landing";
 import { createBrowserRouter } from "react-router";
-import Login from "@/pages/Login";
 import AgentDashboard from "@/pages/AgentDashboard";
 import AgentLayout from "@/Layout/AgentLayout";
 import CreateStudent from "@/pages/CreateStudent";
@@ -15,6 +14,8 @@ import ManageStudents from "@/pages/ManageStudents";
 import ViewAgent from "@/pages/ViewAgent";
 import StudentProfile from "@/pages/StudentProfile";
 import NotFound from "@/pages/NotFound";
+import Login from "@/pages/Login";
+import { axiosSecure } from "@/lib/axios";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,7 +43,12 @@ const router = createBrowserRouter([
     element: <AdminLayout />,
     children: [
       { index: true, element: <AdminDashboard /> },
-      { path: "manageAgents", element: <ManageAgents /> },
+      {
+        path: "manageAgents",
+        element: <ManageAgents />,
+        loader: () =>
+          axiosSecure.get("/admin/agents").then((res) => res.data.data),
+      },
       { path: "manageStudents", element: <ManageStudents /> },
       { path: "agent", element: <ViewAgent /> },
     ],

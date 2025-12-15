@@ -39,13 +39,13 @@ interface ErrorResult {
   error: string;
 }
 export function parseFormData<T>(
-  ref: RefObject<HTMLFormElement | null>,
+  formElement: HTMLFormElement,
   zodSchema: _ZodType,
 ): SuccessResult<T> | ErrorResult {
-  if (!ref.current) throw new Error("Ref must be a form Element");
-  const formData = Object.fromEntries(new FormData(ref.current).entries());
+  const formData = Object.fromEntries(new FormData(formElement).entries());
   const result = zodSchema.safeParse(formData);
   if (!result.success) {
+    console.log(result.error);
     const message = result.error.issues[0].message;
     return { success: false, error: message };
   }
