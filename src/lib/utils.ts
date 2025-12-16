@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from "clsx";
-import type { RefObject } from "react";
 import { twMerge } from "tailwind-merge";
 import type { _ZodType } from "zod";
 

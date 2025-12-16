@@ -14,4 +14,4 @@ const publicApi = createApi({
   endpoints: publicApiEndpoints,
 });
 export const { useGetCountriesQuery } = publicApi;
-export default publicApi;
+export { publicApi };

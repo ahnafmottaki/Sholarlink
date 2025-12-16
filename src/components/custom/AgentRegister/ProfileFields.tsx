@@ -36,11 +36,14 @@ export default function ProfileFields() {
         id="contact_no"
         required
         placeholder="01329553511"
+        defaultValue={"01329553511"}
       />
       <TextAreaField
         label="address"
         id="address"
         className="resize-y max-h-30 min-h-20"
+        placeholder="Kanchibari, Dhubni Bazar, Sundarganj, Gaibandha"
+        defaultValue={"Kanchibari, Dhubni Bazar, Sundarganj, Gaibandha"}
       />
     </>
   );

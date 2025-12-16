@@ -19,7 +19,9 @@ export default function AccountFields() {
         onValueChange={(value) => setAccountType(value as Account)}
       >
         {Object.keys(ACCOUNT_TYPES).map((key) => (
-          <SelectItem value={key}>{key}</SelectItem>
+          <SelectItem key={key} value={key}>
+            {key}
+          </SelectItem>
         ))}
       </SelectField>
       {!isIndividual && (
@@ -29,6 +31,7 @@ export default function AccountFields() {
           required
           placeholder="goated org"
           id="org_name"
+          defaultValue={"goated organization"}
         />
       )}
       <InputField
@@ -36,6 +39,7 @@ export default function AccountFields() {
         id="email"
         required
         placeholder="ahnafmottaki22@gmail.com"
+        defaultValue={"ahnafmottaki22@gmail.com"}
       />
       <InputField
         label={isIndividual ? "full name" : "person in charge"}
@@ -43,24 +47,24 @@ export default function AccountFields() {
         id="name"
         required
         placeholder="ahnaf mottaki"
+        defaultValue={"ahnaf mottaki"}
       />
       <SelectField
         key={accountType}
         label="document_type"
         id="document_type"
         triggerText="select one"
+        defaultValue={Object.keys(ACCOUNT_TYPES[accountType])[0]}
       >
-        {Object.entries(ACCOUNT_TYPES[accountType]).map(([value, text]) => (
-          <SelectItem value={value}>{text}</SelectItem>
+        {Object.entries(ACCOUNT_TYPES[accountType]).map(([key, value]) => (
+          <SelectItem key={key} value={key}>
+            {value}
+          </SelectItem>
         ))}
       </SelectField>
       <Field className="space-y-2">
-        <FieldLabel htmlFor="document_type">document type</FieldLabel>
-        <DropFile
-          accept="application/pdf"
-          name="document_type"
-          id="document_type"
-        />
+        <FieldLabel htmlFor="document">document type</FieldLabel>
+        <DropFile accept="application/pdf" name="document" id="document" />
       </Field>
     </>
   );

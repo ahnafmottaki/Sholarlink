@@ -1,3 +1,4 @@
+import { useRegisterMutation } from "@/api";
 import AccountFields from "@/components/custom/AgentRegister/AccountFields";
 import ProfileFields from "@/components/custom/AgentRegister/ProfileFields";
 import { Button } from "@/components/ui/button";
@@ -8,19 +9,41 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Activity, useState, type FormEvent } from "react";
+import { FieldGroup } from "@/components/ui/field";
+import { createFormData, parseFormData } from "@/lib/utils";
+import {
+  agentRegisterSchema,
+  type Agent,
+} from "@/zod-schema/agentRegisterSchema";
+import { useState, type FormEvent } from "react";
+import { toast } from "sonner";
 
 const Tabs = ["profile", "account"] as const;
 
 const AgentRegister = () => {
   const [tab, setTab] = useState<(typeof Tabs)[number]>("profile");
+  const [register, { isLoading, isError, error }] = useRegisterMutation();
+  if (isError) {
+    console.log("error in the whole");
+    console.log(error);
+    alert("error happened");
+  }
   const onChangeTab = () => {
     setTab(tab === "profile" ? "account" : "profile");
   };
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Form submitted");
+    const result = parseFormData<Agent>(
+      event.currentTarget,
+      agentRegisterSchema,
+    );
+    if (!result.success) {
+      toast.error(result.error);
+      return;
+    }
+    const formData = createFormData(result.data);
+    register(formData);
   };
   return (
     <>
@@ -45,20 +68,33 @@ const AgentRegister = () => {
               ))}
             </div>
             <form className="space-y-4" onSubmit={onSubmit}>
-              <Activity mode={tab === "profile" ? "visible" : "hidden"}>
-                <ProfileFields />
-              </Activity>
-              <Activity mode={tab === "account" ? "visible" : "hidden"}>
-                <AccountFields />
-              </Activity>
-
-              <Button className="block mx-auto" type="submit">
-                Login Here
-              </Button>
+              <div className={tab === "profile" ? "block" : "hidden"}>
+                <FieldGroup>
+                  <ProfileFields />
+                </FieldGroup>
+              </div>
+              <div className={tab === "account" ? "block" : "hidden"}>
+                <FieldGroup>
+                  <AccountFields />
+                </FieldGroup>
+              </div>
+              <div className=" flex justify-between">
+                <Button type="button" variant={"outline"} onClick={onChangeTab}>
+                  {tab === "profile" ? "Next" : "Previous"}
+                </Button>
+                <Button disabled={isLoading} type="submit">
+                  Register
+                </Button>
+              </div>
             </form>
             <p className="text-sm text-center text-muted-foreground">
               Already have an account?{" "}
-              <Button variant="link" className="p-0" type="button">
+              <Button
+                disabled={isLoading}
+                variant="link"
+                className="p-0"
+                type="button"
+              >
                 Login here
               </Button>
             </p>
