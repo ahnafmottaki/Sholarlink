@@ -1,3 +1,4 @@
+import AccountFields from "@/components/custom/AgentRegister/AccountFields";
 import InputField from "@/components/custom/FormFields/InputField";
 import SelectField from "@/components/custom/FormFields/SelectField";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SelectItem } from "@/components/ui/select";
+import { useGetCountriesQuery } from "@/api/publicApi";
 import type { Country } from "@/types/country";
 import axios, { type AxiosResponse } from "axios";
 import { useEffect, useState, type FormEvent } from "react";
@@ -17,22 +19,6 @@ const Tabs = ["profile", "account"] as const;
 
 const AgentRegister = () => {
   const [tab, setTab] = useState<(typeof Tabs)[number]>("profile");
-  const [countries, setCountries] = useState<Country[]>([]);
-  useEffect(() => {
-    async function fetchCountries() {
-      const response: AxiosResponse<{ data: Country[] }> = await axios.get(
-        `${import.meta.env.VITE_DOMAIN}/country`,
-      );
-      // const sorted = response.data.data
-      //   .map((c) => ({
-      //     ...c,
-      //     name: c.name.toLowerCase().trim(),
-      //   }))
-      //   .sort();
-      setCountries(response.data.data);
-    }
-    fetchCountries();
-  }, []);
   const onChangeTab = () => {
     setTab(tab === "profile" ? "account" : "profile");
   };
@@ -64,29 +50,7 @@ const AgentRegister = () => {
               ))}
             </div>
             <form className="space-y-4" onSubmit={onSubmit}>
-              <InputField
-                label="Username"
-                type="text"
-                id="username"
-                defaultValue="john"
-              />
-              <InputField
-                label="Password"
-                type="password"
-                id="password"
-                defaultValue={"123456"}
-              />
-              <SelectField
-                label={"country"}
-                triggerText="Choose a counry"
-                id="country"
-              >
-                {countries.map(({ _id, name }) => (
-                  <SelectItem key={_id} value={_id}>
-                    {name}
-                  </SelectItem>
-                ))}
-              </SelectField>
+              <AccountFields />
               <Button className="block mx-auto" type="submit">
                 Login Here
               </Button>
