@@ -6,10 +6,10 @@ interface CountryRes {
   message: string;
   data: Country[];
 }
-const endpoints = (builder: Builder<"publicApi">) => ({
+const publicApiEndpoints = (builder: Builder<"publicApi">) => ({
   getCountries: builder.query<CountryRes, void>({
     query: () => ({ url: "/country" }),
   }),
 });
 
-export { endpoints };
+export { publicApiEndpoints };

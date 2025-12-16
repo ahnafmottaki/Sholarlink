@@ -37,6 +37,7 @@ const DropFile: React.FC<DropFileProp> = ({ fnWithFile, ...props }) => {
       const selectedFile = dropFiles[0];
       const acceptedType = fileInputRef.current?.accept;
       if (selectedFile.type !== acceptedType) {
+        console.log(selectedFile.type);
         toast.error(`Only ${acceptedType} files are allowed`);
         return;
       }

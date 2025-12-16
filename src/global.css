@@ -52,15 +52,20 @@
   --shadow-color: #2d2d53;
   --shadow-2xs: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.06);
   --shadow-xs: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.06);
-  --shadow-sm: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow-sm:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 1px 2px -1px hsl(240 29.6875% 25.098% / 0.12);
-  --shadow: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 1px 2px -1px hsl(240 29.6875% 25.098% / 0.12);
-  --shadow-md: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow-md:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 2px 4px -1px hsl(240 29.6875% 25.098% / 0.12);
-  --shadow-lg: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow-lg:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 4px 6px -1px hsl(240 29.6875% 25.098% / 0.12);
-  --shadow-xl: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow-xl:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 8px 10px -1px hsl(240 29.6875% 25.098% / 0.12);
   --shadow-2xl: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.3);
   --tracking-normal: 0em;
@@ -117,15 +122,20 @@
   --shadow-color: #2d2d53;
   --shadow-2xs: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.06);
   --shadow-xs: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.06);
-  --shadow-sm: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow-sm:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 1px 2px -1px hsl(240 29.6875% 25.098% / 0.12);
-  --shadow: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 1px 2px -1px hsl(240 29.6875% 25.098% / 0.12);
-  --shadow-md: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow-md:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 2px 4px -1px hsl(240 29.6875% 25.098% / 0.12);
-  --shadow-lg: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow-lg:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 4px 6px -1px hsl(240 29.6875% 25.098% / 0.12);
-  --shadow-xl: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
+  --shadow-xl:
+    0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.12),
     0px 8px 10px -1px hsl(240 29.6875% 25.098% / 0.12);
   --shadow-2xl: 0px 4px 6px 0px hsl(240 29.6875% 25.098% / 0.3);
 }
@@ -192,5 +202,16 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Hide the arrows/spinners for all browsers */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* Standard property, for future compatibility */
   }
 }

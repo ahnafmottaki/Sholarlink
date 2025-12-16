@@ -1,6 +1,5 @@
 import AccountFields from "@/components/custom/AgentRegister/AccountFields";
-import InputField from "@/components/custom/FormFields/InputField";
-import SelectField from "@/components/custom/FormFields/SelectField";
+import ProfileFields from "@/components/custom/AgentRegister/ProfileFields";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,11 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SelectItem } from "@/components/ui/select";
-import { useGetCountriesQuery } from "@/api/publicApi";
-import type { Country } from "@/types/country";
-import axios, { type AxiosResponse } from "axios";
-import { useEffect, useState, type FormEvent } from "react";
+import { Activity, useState, type FormEvent } from "react";
 
 const Tabs = ["profile", "account"] as const;
 
@@ -50,7 +45,13 @@ const AgentRegister = () => {
               ))}
             </div>
             <form className="space-y-4" onSubmit={onSubmit}>
-              <AccountFields />
+              <Activity mode={tab === "profile" ? "visible" : "hidden"}>
+                <ProfileFields />
+              </Activity>
+              <Activity mode={tab === "account" ? "visible" : "hidden"}>
+                <AccountFields />
+              </Activity>
+
               <Button className="block mx-auto" type="submit">
                 Login Here
               </Button>

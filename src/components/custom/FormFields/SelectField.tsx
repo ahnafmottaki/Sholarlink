@@ -14,6 +14,7 @@ interface SelectFieldProp {
   defaultValue?: string;
   disabled?: boolean;
   onValueChange?: (value: string) => void;
+  value?: string;
 }
 const SelectField: React.FC<SelectFieldProp> = ({
   label,
@@ -23,11 +24,13 @@ const SelectField: React.FC<SelectFieldProp> = ({
   disabled,
   onValueChange,
   id,
+  value,
 }) => {
   return (
     <Field>
       <FieldLabel>{label}</FieldLabel>
       <Select
+        value={value}
         name={id}
         defaultValue={defaultValue}
         onValueChange={onValueChange}

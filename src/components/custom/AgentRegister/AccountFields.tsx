@@ -1,36 +1,67 @@
-import { useGetCountriesQuery } from "@/api/publicApi";
-import InputField from "../FormFields/InputField";
-import SelectField from "../FormFields/SelectField";
 import { SelectItem } from "@/components/ui/select";
-import { Activity } from "react";
+import SelectField from "../FormFields/SelectField";
+import { useState } from "react";
+import { ACCOUNT_TYPES, type Account } from "@/constants/document-types";
+import InputField from "../FormFields/InputField";
+import DropFile from "../DropFile";
+import { Field, FieldLabel } from "@/components/ui/field";
 
 export default function AccountFields() {
-  const { data, error, isError } = useGetCountriesQuery();
-  if (isError) {
-    throw new Error("");
-  }
+  const [accountType, setAccountType] = useState<Account>("individual");
+  const isIndividual = accountType === "individual";
   return (
-    <Activity mode="visible">
-      <InputField
-        label="Username"
-        type="text"
-        id="username"
-        defaultValue="john"
-      />
-      <InputField
-        label="Password"
-        type="password"
-        id="password"
-        defaultValue={"123456"}
-      />
-      <SelectField label={"country"} triggerText="Choose a counry" id="country">
-        {data &&
-          data.data.map(({ _id, name }) => (
-            <SelectItem key={_id} value={_id}>
-              {name}
-            </SelectItem>
-          ))}
+    <>
+      <SelectField
+        label="account type"
+        id="account_type"
+        triggerText="select account type"
+        defaultValue={accountType}
+        onValueChange={(value) => setAccountType(value as Account)}
+      >
+        {Object.keys(ACCOUNT_TYPES).map((key) => (
+          <SelectItem value={key}>{key}</SelectItem>
+        ))}
       </SelectField>
-    </Activity>
+      {!isIndividual && (
+        <InputField
+          label="organization name"
+          type="text"
+          required
+          placeholder="goated org"
+          id="org_name"
+        />
+      )}
+      <InputField
+        label={isIndividual ? "email" : "organization email"}
+        id="email"
+        required
+        placeholder="ahnafmottaki22@gmail.com"
+      />
+      <InputField
+        label={isIndividual ? "full name" : "person in charge"}
+        type="text"
+        id="name"
+        required
+        placeholder="ahnaf mottaki"
+      />
+      <SelectField
+        key={accountType}
+        label="document_type"
+        id="document_type"
+        triggerText="select one"
+      >
+        {Object.entries(ACCOUNT_TYPES[accountType]).map(([value, text]) => (
+          <SelectItem value={value}>{text}</SelectItem>
+        ))}
+      </SelectField>
+      <Field className="space-y-2">
+        <FieldLabel htmlFor="document_type">document type</FieldLabel>
+        <DropFile
+          accept="application/pdf"
+          name="document_type"
+          id="document_type"
+        />
+      </Field>
+    </>
   );
 }
