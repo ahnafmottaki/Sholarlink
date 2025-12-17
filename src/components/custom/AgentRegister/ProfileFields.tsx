@@ -33,7 +33,7 @@ export default function ProfileFields() {
       <InputField
         type="number"
         label="contact no"
-        id="contact_no"
+        id="contactNo"
         required
         placeholder="01329553511"
         defaultValue={"01329553511"}

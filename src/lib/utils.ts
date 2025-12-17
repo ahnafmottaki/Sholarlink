@@ -28,25 +28,19 @@ export function createFormData<T extends Record<string, unknown>>(
   return formData;
 }
 
-interface SuccessResult<T> {
-  success: true;
-  data: T;
+interface Result<T> {
+  error?: string;
+  data?: T;
 }
-
-interface ErrorResult {
-  success: false;
-  error: string;
-}
-export function parseFormData<T>(
+export function parseSchema<T>(
   formElement: HTMLFormElement,
   zodSchema: _ZodType,
-): SuccessResult<T> | ErrorResult {
+): Result<T> {
   const formData = Object.fromEntries(new FormData(formElement).entries());
   const result = zodSchema.safeParse(formData);
   if (!result.success) {
-    console.log(result.error);
     const message = result.error.issues[0].message;
-    return { success: false, error: message };
+    return { error: message };
   }
-  return { success: true, data: result.data as T };
+  return { data: result.data as T };
 }

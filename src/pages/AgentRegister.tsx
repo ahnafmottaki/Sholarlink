@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
-import { createFormData, parseFormData } from "@/lib/utils";
+import { createFormData, parseSchema } from "@/lib/utils";
 import {
   agentRegisterSchema,
   type Agent,
@@ -26,7 +26,6 @@ const AgentRegister = () => {
   if (isError) {
     console.log("error in the whole");
     console.log(error);
-    alert("error happened");
   }
   const onChangeTab = () => {
     setTab(tab === "profile" ? "account" : "profile");
@@ -34,15 +33,13 @@ const AgentRegister = () => {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const result = parseFormData<Agent>(
-      event.currentTarget,
-      agentRegisterSchema,
-    );
-    if (!result.success) {
+    const result = parseSchema<Agent>(event.currentTarget, agentRegisterSchema);
+    if (result.error) {
       toast.error(result.error);
       return;
     }
-    const formData = createFormData(result.data);
+    console.log(result.data);
+    const formData = createFormData(result.data!);
     register(formData);
   };
   return (

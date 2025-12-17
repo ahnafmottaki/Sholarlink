@@ -13,7 +13,7 @@ export default function AccountFields() {
     <>
       <SelectField
         label="account type"
-        id="account_type"
+        id="accountType"
         triggerText="select account type"
         defaultValue={accountType}
         onValueChange={(value) => setAccountType(value as Account)}
@@ -30,7 +30,7 @@ export default function AccountFields() {
           type="text"
           required
           placeholder="goated org"
-          id="org_name"
+          id="orgName"
           defaultValue={"goated organization"}
         />
       )}
@@ -52,7 +52,7 @@ export default function AccountFields() {
       <SelectField
         key={accountType}
         label="document_type"
-        id="document_type"
+        id="documentType"
         triggerText="select one"
         defaultValue={Object.keys(ACCOUNT_TYPES[accountType])[0]}
       >

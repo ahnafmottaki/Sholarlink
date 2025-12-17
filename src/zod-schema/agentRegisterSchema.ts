@@ -1,11 +1,14 @@
 import { ACCOUNT_TYPES } from "@/constants/document-types";
 import z from "zod";
 const LoginSchema = z.object({
-  username: z.string().min(3, "username is required"),
+  username: z
+    .string()
+    .min(3, "username is required")
+    .refine((arg) => arg.toLowerCase().trim()),
   password: z.string().min(6, "password must be at least 6 characters"),
 });
 const baseAgentSchema = LoginSchema.extend({
-  contact_no: z
+  contactNo: z
     .string()
     .min(10, "contact number must be at least 10 characters"),
   country: z.string().min(1, "country is required"),
@@ -22,18 +25,18 @@ const baseAgentSchema = LoginSchema.extend({
 });
 
 const individualSchema = baseAgentSchema.extend({
-  account_type: z.literal("individual"),
-  document_type: z.enum(Object.keys(ACCOUNT_TYPES.individual)),
+  accountType: z.literal("individual"),
+  documentType: z.enum(Object.keys(ACCOUNT_TYPES.individual)),
 });
 
 const organizationSchema = baseAgentSchema.extend({
-  account_type: z.literal("organization"),
-  org_name: z.string().min(3, "organization name is required"),
-  document_type: z.enum(Object.keys(ACCOUNT_TYPES.organization)),
+  accountType: z.literal("organization"),
+  orgName: z.string().min(3, "organization name is required"),
+  documentType: z.enum(Object.keys(ACCOUNT_TYPES.organization)),
 });
 
 // Use discriminated union with account_type as the discriminator
-const agentRegisterSchema = z.discriminatedUnion("account_type", [
+const agentRegisterSchema = z.discriminatedUnion("accountType", [
   individualSchema,
   organizationSchema,
 ]);

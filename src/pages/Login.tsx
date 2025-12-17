@@ -8,39 +8,34 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { axiosSecure } from "@/lib/axios";
-import { parseFormData } from "@/lib/utils";
-import type { FailedResponse, Response } from "@/types/axios";
-import { LoginSchema, type LoginType } from "@/zod-schema/agentRegisterSchema";
 import { MoveRight } from "lucide-react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
-import { toast } from "sonner";
 interface LoginProp {
   as: "agent" | "admin";
 }
 const Login = ({ as }: LoginProp) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const isAdmin = as === "admin";
   const loginHandler = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const result = parseFormData<LoginType>(event.currentTarget, LoginSchema);
-    if (!result.success) {
-      toast.error(result.error);
-      return;
-    }
-    const url = isAdmin ? "/auth/adminLogin" : "/auth/login";
-    toast.promise(axiosSecure.post(url, result.data), {
-      loading: "Registering...",
-      success: (response: Response) => {
-        const nextRoute = isAdmin ? "/admin" : "/agent";
-        navigate(nextRoute);
-        return response.data.message;
-      },
-      error: (err: FailedResponse) => {
-        return err.response?.data.error || "An Error Occurred";
-      },
-    });
+    // event.preventDefault();
+    // const result = parseFormData<LoginType>(event.currentTarget, LoginSchema);
+    // if (!result.success) {
+    //   toast.error(result.error);
+    //   return;
+    // }
+    // const url = isAdmin ? "/auth/adminLogin" : "/auth/login";
+    // toast.promise(axiosSecure.post(url, result.data), {
+    //   loading: "Registering...",
+    //   success: (response: Response) => {
+    //     const nextRoute = isAdmin ? "/admin" : "/agent";
+    //     navigate(nextRoute);
+    //     return response.data.message;
+    //   },
+    //   error: (err: FailedResponse) => {
+    //     return err.response?.data.error || "An Error Occurred";
+    //   },
+    // });
   };
   return (
     <div className="container mx-auto flex items-center justify-center px-4 py-12 min-h-[calc(100vh)] max-w-md">
