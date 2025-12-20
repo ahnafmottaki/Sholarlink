@@ -3,14 +3,14 @@ import {
   type BaseQueryFn,
   type EndpointBuilder,
 } from "@reduxjs/toolkit/query/react";
-import { baseQuery } from "../baseApi";
+import { axiosBaseQuery } from "../baseApi";
 import { publicApiEndpoints } from "./endpoints";
 
 export type Builder<T extends string> = EndpointBuilder<BaseQueryFn, never, T>;
 
 const publicApi = createApi({
   reducerPath: "publicApi",
-  baseQuery: baseQuery,
+  baseQuery: axiosBaseQuery({}),
   endpoints: publicApiEndpoints,
 });
 export const { useGetCountriesQuery } = publicApi;

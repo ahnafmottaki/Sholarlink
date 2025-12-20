@@ -22,9 +22,12 @@ const Tabs = ["profile", "account"] as const;
 
 const AgentRegister = () => {
   const [tab, setTab] = useState<(typeof Tabs)[number]>("profile");
-  const [register, { isLoading, isError, error }] = useRegisterMutation();
+  const [register, { isLoading, isError, error, isSuccess, data }] =
+    useRegisterMutation();
+  if (isSuccess) {
+    toast.success(data.message);
+  }
   if (isError) {
-    console.log("error in the whole");
     console.log(error);
   }
   const onChangeTab = () => {

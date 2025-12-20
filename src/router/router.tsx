@@ -15,7 +15,6 @@ import ViewAgent from "@/pages/ViewAgent";
 import StudentProfile from "@/pages/StudentProfile";
 import NotFound from "@/pages/NotFound";
 import Login from "@/pages/Login";
-import { axiosSecure } from "@/lib/axios";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -46,8 +45,6 @@ const router = createBrowserRouter([
       {
         path: "manageAgents",
         element: <ManageAgents />,
-        loader: () =>
-          axiosSecure.get("/admin/agents").then((res) => res.data.data),
       },
       { path: "manageStudents", element: <ManageStudents /> },
       { path: "agent", element: <ViewAgent /> },
