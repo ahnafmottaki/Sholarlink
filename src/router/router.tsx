@@ -15,14 +15,15 @@ import ViewAgent from "@/pages/ViewAgent";
 import StudentProfile from "@/pages/StudentProfile";
 import NotFound from "@/pages/NotFound";
 import Login from "@/pages/Login";
+import AgentLogin from "@/pages/AgentLogin";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     children: [
       { index: true, element: <Landing /> },
-      { path: "agentLogin", element: <Login as="agent" /> },
-      { path: "adminLogin", element: <Login as="admin" /> },
+      { path: "agentLogin", Component: AgentLogin },
+      // { path: "adminLogin", element: <Login as="admin" /> },
       { path: "agentRegister", element: <AgentRegister /> },
     ],
   },

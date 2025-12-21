@@ -4,8 +4,6 @@ import { useCallback, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 
-// Your API base URL
-
 const axiosInstance = axios.create();
 
 const getErrorMessage = (error: AxiosError): string => {

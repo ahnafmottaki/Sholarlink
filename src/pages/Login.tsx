@@ -9,46 +9,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MoveRight } from "lucide-react";
-import type { FormEvent } from "react";
-import { Link, useNavigate } from "react-router";
+import type { FormEvent, ReactNode } from "react";
+import { Link } from "react-router";
 interface LoginProp {
-  as: "agent" | "admin";
+  title: string;
+  description: string;
+  loginHandler: (event: FormEvent<HTMLFormElement>) => void;
+  children: ReactNode;
 }
-const Login = ({ as }: LoginProp) => {
-  // const navigate = useNavigate();
-  const isAdmin = as === "admin";
-  const loginHandler = (event: FormEvent<HTMLFormElement>) => {
-    // event.preventDefault();
-    // const result = parseFormData<LoginType>(event.currentTarget, LoginSchema);
-    // if (!result.success) {
-    //   toast.error(result.error);
-    //   return;
-    // }
-    // const url = isAdmin ? "/auth/adminLogin" : "/auth/login";
-    // toast.promise(axiosSecure.post(url, result.data), {
-    //   loading: "Registering...",
-    //   success: (response: Response) => {
-    //     const nextRoute = isAdmin ? "/admin" : "/agent";
-    //     navigate(nextRoute);
-    //     return response.data.message;
-    //   },
-    //   error: (err: FailedResponse) => {
-    //     return err.response?.data.error || "An Error Occurred";
-    //   },
-    // });
-  };
+const Login = ({ title, description, loginHandler, children }: LoginProp) => {
   return (
     <div className="container mx-auto flex items-center justify-center px-4 py-12 min-h-[calc(100vh)] max-w-md">
       <Card className="w-full">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">
-            {as.at(0)?.toUpperCase() + as.slice(1)} Login
-          </CardTitle>
-          <CardDescription>
-            {isAdmin
-              ? "Access the admin dashboard to manage agents and applications"
-              : "Enter your credentials to access your dashboard"}
-          </CardDescription>
+          <CardTitle className="text-2xl">{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={loginHandler}>
@@ -57,8 +32,8 @@ const Login = ({ as }: LoginProp) => {
               <Input
                 id="username"
                 type="text"
-                placeholder={isAdmin ? "mash" : "john"}
-                defaultValue={isAdmin ? "mash" : "john"}
+                placeholder={"mash"}
+                defaultValue={"mash"}
                 name="username"
                 required
               />
@@ -75,26 +50,15 @@ const Login = ({ as }: LoginProp) => {
               />
             </div>
 
-            {as === "agent" && (
-              <Button variant="link" className="p-0 h-auto text-sm">
-                Forgot password?
-              </Button>
-            )}
-
-            <Button type="submit" className="w-full" size="lg">
-              {isAdmin ? "Login as Admin" : "Login"}
+            <Button variant="link" className="p-0 h-auto text-sm">
+              Forgot password?
             </Button>
 
-            {!isAdmin && (
-              <p className="text-sm text-center text-muted-foreground">
-                Don't have an account?{" "}
-                <Link to="/agentRegister">
-                  <Button variant="link" className="p-0">
-                    Register here
-                  </Button>
-                </Link>
-              </p>
-            )}
+            <Button type="submit" className="w-full" size="lg">
+              Login
+            </Button>
+
+            {children}
             <p className=" text-sm text-center text-muted-foreground">
               <Link to="/" className="hover:underline">
                 <Button variant="link" className="p-0 ">

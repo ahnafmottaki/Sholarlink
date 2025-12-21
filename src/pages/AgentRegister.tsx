@@ -1,6 +1,7 @@
 import { useRegisterMutation } from "@/api";
 import AccountFields from "@/components/custom/AgentRegister/AccountFields";
 import ProfileFields from "@/components/custom/AgentRegister/ProfileFields";
+import Loader from "@/components/custom/Loader";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,12 +27,18 @@ const AgentRegister = () => {
   const navigate = useNavigate();
   const [register, { isLoading, isSuccess, data }] = useRegisterMutation();
   useEffect(() => {
-    if (isSuccess && data) {
-      console.log(data);
+    let timeoutId: null | number;
+    if (!isLoading && isSuccess && data) {
       toast.success(data.message);
-      navigate("/agent");
+      timeoutId = setTimeout(() => {
+        navigate("/agentLogin");
+      }, 1000);
     }
-  }, [isSuccess, data, navigate]);
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [isLoading, isSuccess, data, navigate]);
+
   const onChangeTab = () => {
     setTab(tab === "profile" ? "account" : "profile");
   };
@@ -83,19 +90,21 @@ const AgentRegister = () => {
                 <Button type="button" variant={"outline"} onClick={onChangeTab}>
                   {tab === "profile" ? "Next" : "Previous"}
                 </Button>
-                <Button disabled={isLoading} type="submit">
-                  Register
-                </Button>
+                <div className="flex gap-2 items-center">
+                  {isLoading && <Loader />}
+                  <Button
+                    className={`${isLoading ? "opacity-30" : ""}`}
+                    disabled={isLoading}
+                    type="submit"
+                  >
+                    Register
+                  </Button>
+                </div>
               </div>
             </form>
             <p className="text-sm text-center text-muted-foreground">
               Already have an account?{" "}
-              <Button
-                disabled={isLoading}
-                variant="link"
-                className={`p-0 ${isLoading ? "opacity-0" : ""}`}
-                type="button"
-              >
+              <Button variant="link" className="p-0" type="button">
                 Login here
               </Button>
             </p>
