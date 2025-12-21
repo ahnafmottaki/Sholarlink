@@ -20,7 +20,6 @@ const axiosBaseQuery =
   > =>
   async ({ url, method, body, params, headers }) => {
     try {
-      console.log("from base query fn", body);
       const result = await axiosInstance({
         url: baseUrl + url,
         method,

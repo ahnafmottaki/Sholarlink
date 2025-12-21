@@ -8,5 +8,9 @@ const authApi = createApi({
   baseQuery: axiosBaseQuery({}),
   endpoints,
 });
-export const { useRegisterMutation, useAgentLoginMutation } = authApi;
+export const {
+  useRegisterMutation,
+  useAgentLoginMutation,
+  useAdminLoginMutation,
+} = authApi;
 export { authApi };

@@ -19,6 +19,16 @@ const endpoints = (builder: Builder<"authApi">) => ({
       body: { username, password },
     }),
   }),
+  adminLogin: builder.mutation<
+    ServerRes,
+    { username: string; password: string }
+  >({
+    query: ({ username, password }) => ({
+      url: "/auth/adminLogin",
+      method: "POST",
+      body: { username, password },
+    }),
+  }),
 });
 
 export { endpoints };

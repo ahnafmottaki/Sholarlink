@@ -15,9 +15,16 @@ interface LoginProp {
   title: string;
   description: string;
   loginHandler: (event: FormEvent<HTMLFormElement>) => void;
-  children: ReactNode;
+  children?: ReactNode;
+  isLoading: boolean;
 }
-const Login = ({ title, description, loginHandler, children }: LoginProp) => {
+const Login = ({
+  title,
+  description,
+  loginHandler,
+  isLoading,
+  children,
+}: LoginProp) => {
   return (
     <div className="container mx-auto flex items-center justify-center px-4 py-12 min-h-[calc(100vh)] max-w-md">
       <Card className="w-full">
@@ -54,7 +61,12 @@ const Login = ({ title, description, loginHandler, children }: LoginProp) => {
               Forgot password?
             </Button>
 
-            <Button type="submit" className="w-full" size="lg">
+            <Button
+              className="w-full"
+              disabled={isLoading}
+              type="submit"
+              size="lg"
+            >
               Login
             </Button>
 

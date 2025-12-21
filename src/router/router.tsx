@@ -14,8 +14,8 @@ import ManageStudents from "@/pages/ManageStudents";
 import ViewAgent from "@/pages/ViewAgent";
 import StudentProfile from "@/pages/StudentProfile";
 import NotFound from "@/pages/NotFound";
-import Login from "@/pages/Login";
 import AgentLogin from "@/pages/AgentLogin";
+import AdminLogin from "@/pages/AdminLogin";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Landing /> },
       { path: "agentLogin", Component: AgentLogin },
-      // { path: "adminLogin", element: <Login as="admin" /> },
+      { path: "adminLogin", Component: AdminLogin },
       { path: "agentRegister", element: <AgentRegister /> },
     ],
   },

@@ -1,4 +1,5 @@
 import Sidebar from "@/components/custom/Sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import {
   LayoutDashboard,
   Settings,
@@ -17,17 +18,21 @@ const AgentLayout = () => {
     { icon: Settings, label: "Settings", path: "/agent/settings" },
   ];
   return (
-    <div className="h-screen bg-background flex">
-      {/* Sidebar */}
-      <Sidebar menuItems={menuItems} />
+    <>
+      <Toaster duration={3000} position="top-center" />
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        <div className="sm:p-8 p-4 space-y-8 sm:space-y-8">
-          <Outlet />
-        </div>
-      </main>
-    </div>
+      <div className="h-screen bg-background flex">
+        {/* Sidebar */}
+        <Sidebar menuItems={menuItems} />
+
+        {/* Main Content */}
+        <main className="flex-1 overflow-auto">
+          <div className="sm:p-8 p-4 space-y-8 sm:space-y-8">
+            <Outlet />
+          </div>
+        </main>
+      </div>
+    </>
   );
 };
 

@@ -16,6 +16,7 @@ import {
   agentRegisterSchema,
   type Agent,
 } from "@/zod-schema/agentRegisterSchema";
+import { Link } from "react-router";
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -95,9 +96,11 @@ const AgentRegister = () => {
             </form>
             <p className="text-sm text-center text-muted-foreground">
               Already have an account?{" "}
-              <Button variant="link" className="p-0" type="button">
-                Login here
-              </Button>
+              <Link to={"/agentLogin"}>
+                <Button variant="link" className="p-0" type="button">
+                  Login here
+                </Button>
+              </Link>
             </p>
           </CardContent>
         </Card>

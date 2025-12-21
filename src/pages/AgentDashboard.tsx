@@ -11,8 +11,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Users, CheckCircle, Clock, XCircle, Download } from "lucide-react";
 import { Link } from "react-router";
+import { useGetDashboardQuery } from "@/api/agentApi";
 
 const AgentDashboard = () => {
+  const { data, isFetching } = useGetDashboardQuery();
+  if (isFetching) {
+    return <div>Loading...</div>;
+  }
+  console.log(data);
   const stats = [
     {
       label: "Total Application",
