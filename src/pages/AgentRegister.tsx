@@ -16,7 +16,7 @@ import {
   agentRegisterSchema,
   type Agent,
 } from "@/zod-schema/agentRegisterSchema";
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -26,18 +26,9 @@ const AgentRegister = () => {
   const [tab, setTab] = useState<(typeof Tabs)[number]>("profile");
   const navigate = useNavigate();
   const [register, { isLoading, isSuccess, data }] = useRegisterMutation();
-  useEffect(() => {
-    let timeoutId: null | number;
-    if (!isLoading && isSuccess && data) {
-      toast.success(data.message);
-      timeoutId = setTimeout(() => {
-        navigate("/agentLogin");
-      }, 1000);
-    }
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, [isLoading, isSuccess, data, navigate]);
+  if (!isLoading && isSuccess && data) {
+    navigate("/agentLogin");
+  }
 
   const onChangeTab = () => {
     setTab(tab === "profile" ? "account" : "profile");

@@ -9,6 +9,16 @@ const endpoints = (builder: Builder<"authApi">) => ({
       body: credentials,
     }),
   }),
+  agentLogin: builder.mutation<
+    ServerRes,
+    { username: string; password: string }
+  >({
+    query: ({ username, password }) => ({
+      url: "/auth/login",
+      method: "POST",
+      body: { username, password },
+    }),
+  }),
 });
 
 export { endpoints };

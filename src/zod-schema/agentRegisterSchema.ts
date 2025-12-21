@@ -1,13 +1,13 @@
 import { ACCOUNT_TYPES } from "@/constants/document-types";
 import z from "zod";
-const LoginSchema = z.object({
+const loginSchema = z.object({
   username: z
     .string()
     .min(3, "username is required")
     .refine((arg) => arg.toLowerCase().trim()),
   password: z.string().min(6, "password must be at least 6 characters"),
 });
-const baseAgentSchema = LoginSchema.extend({
+const baseAgentSchema = loginSchema.extend({
   contactNo: z
     .string()
     .min(10, "contact number must be at least 10 characters"),
@@ -42,9 +42,9 @@ const agentRegisterSchema = z.discriminatedUnion("accountType", [
 ]);
 
 type Agent = z.infer<typeof agentRegisterSchema>;
-type LoginType = z.infer<typeof LoginSchema>;
+type LoginType = z.infer<typeof loginSchema>;
 type IndividualAgent = z.infer<typeof individualSchema>;
 type OrganizationAgent = z.infer<typeof organizationSchema>;
 
 export type { Agent, LoginType, IndividualAgent, OrganizationAgent };
-export { agentRegisterSchema, LoginSchema };
+export { agentRegisterSchema, loginSchema };
