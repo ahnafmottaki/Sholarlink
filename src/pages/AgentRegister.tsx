@@ -15,21 +15,23 @@ import {
   agentRegisterSchema,
   type Agent,
 } from "@/zod-schema/agentRegisterSchema";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 const Tabs = ["profile", "account"] as const;
 
 const AgentRegister = () => {
   const [tab, setTab] = useState<(typeof Tabs)[number]>("profile");
-  const [register, { isLoading, isError, error, isSuccess, data }] =
-    useRegisterMutation();
-  if (isSuccess) {
-    toast.success(data.message);
-  }
-  if (isError) {
-    console.log(error);
-  }
+  const navigate = useNavigate();
+  const [register, { isLoading, isSuccess, data }] = useRegisterMutation();
+  useEffect(() => {
+    if (isSuccess && data) {
+      console.log(data);
+      toast.success(data.message);
+      navigate("/agent");
+    }
+  }, [isSuccess, data, navigate]);
   const onChangeTab = () => {
     setTab(tab === "profile" ? "account" : "profile");
   };
@@ -41,7 +43,6 @@ const AgentRegister = () => {
       toast.error(result.error);
       return;
     }
-    console.log(result.data);
     const formData = createFormData(result.data!);
     register(formData);
   };
@@ -92,7 +93,7 @@ const AgentRegister = () => {
               <Button
                 disabled={isLoading}
                 variant="link"
-                className="p-0"
+                className={`p-0 ${isLoading ? "opacity-0" : ""}`}
                 type="button"
               >
                 Login here

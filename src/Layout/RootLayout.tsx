@@ -1,8 +1,10 @@
 import Layout from "@/components/custom/Layout";
 import { Toaster } from "@/components/ui/sonner";
+import { useAxios } from "@/hooks/useAxios";
 import { Outlet } from "react-router";
 
 const RootLayout = () => {
+  useAxios();
   return (
     <>
       <Layout>

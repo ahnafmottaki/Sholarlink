@@ -1,6 +1,6 @@
+import { axiosInstance } from "@/hooks/useAxios";
 import { type BaseQueryFn } from "@reduxjs/toolkit/query";
 import type { AxiosError, AxiosRequestConfig } from "axios";
-import axios from "axios";
 const BASE_URL = import.meta.env.VITE_DOMAIN!;
 const axiosBaseQuery =
   ({
@@ -21,7 +21,7 @@ const axiosBaseQuery =
   async ({ url, method, body, params, headers }) => {
     try {
       console.log("from base query fn", body);
-      const result = await axios({
+      const result = await axiosInstance({
         url: baseUrl + url,
         method,
         data: body,
