@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         element: <ManageAgents />,
       },
       { path: "manageStudents", element: <ManageStudents /> },
-      { path: "agent", element: <ViewAgent /> },
+      { path: "agent/:id", element: <ViewAgent isAdmin /> },
     ],
   },
   {

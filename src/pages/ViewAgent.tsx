@@ -12,10 +12,38 @@ import {
   MapPin,
   Briefcase,
 } from "lucide-react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { useGetAgentQuery } from "@/api";
+import Loader from "@/components/custom/Loader";
+import { getError } from "@/lib/utils";
 
-const ViewAgent = () => {
+interface ViewAgentProp {
+  isAdmin?: boolean;
+}
+
+const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
   const navigate = useNavigate();
+  const params = useParams<{ id: string }>();
+  if (!params.id) {
+    throw new Error("invalid id");
+  }
+  const { isFetching, data, isError, error, isSuccess } = useGetAgentQuery({
+    id: params.id,
+  });
+  if (isFetching) {
+    return (
+      <div className="min-h-screen w-full flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (isError && error) {
+    return <div>{getError(error)}</div>;
+  }
+  if (isSuccess && data) {
+    console.log(data);
+  }
   const agentId = "133435322";
   // Mock data - replace with actual API call
   const agentData = {
@@ -166,31 +194,33 @@ const ViewAgent = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-4 justify-end">
-        <Button
-          size="lg"
-          variant="outline"
-          className="text-destructive hover:text-destructive"
-          onClick={() => {
-            // Handle rejection
-            console.log("Rejecting agent:", agentId);
-          }}
-        >
-          <XCircle className="h-5 w-5 mr-2" />
-          Reject
-        </Button>
-        <Button
-          size="lg"
-          className="bg-success hover:bg-success/90"
-          onClick={() => {
-            // Handle approval
-            console.log("Approving agent:", agentId);
-          }}
-        >
-          <CheckCircle className="h-5 w-5 mr-2" />
-          Approve
-        </Button>
-      </div>
+      {isAdmin && (
+        <div className="flex gap-4 justify-end">
+          <Button
+            size="lg"
+            variant="outline"
+            className="text-destructive hover:text-destructive"
+            onClick={() => {
+              // Handle rejection
+              console.log("Rejecting agent:", agentId);
+            }}
+          >
+            <XCircle className="h-5 w-5 mr-2" />
+            Reject
+          </Button>
+          <Button
+            size="lg"
+            className="bg-success hover:bg-success/90"
+            onClick={() => {
+              // Handle approval
+              console.log("Approving agent:", agentId);
+            }}
+          >
+            <CheckCircle className="h-5 w-5 mr-2" />
+            Approve
+          </Button>
+        </div>
+      )}
     </>
   );
 };

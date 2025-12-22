@@ -70,7 +70,7 @@ const ManageAgents = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => navigate(`/admin/agent`)}
+                          onClick={() => navigate(`/admin/agent/${agent._id}`)}
                         >
                           <Eye className="h-4 w-4 mr-1" />
                           View Info

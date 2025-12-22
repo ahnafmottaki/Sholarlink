@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function createFormData<T extends Record<string, unknown>>(
-  data: T,
+  data: T
 ): FormData {
   const formData = new FormData();
   for (const [key, value] of Object.entries(data)) {
@@ -34,7 +34,7 @@ interface Result<T> {
 }
 export function parseSchema<T>(
   formElement: HTMLFormElement,
-  zodSchema: _ZodType,
+  zodSchema: _ZodType
 ): Result<T> {
   const formData = Object.fromEntries(new FormData(formElement).entries());
   const result = zodSchema.safeParse(formData);
@@ -43,4 +43,26 @@ export function parseSchema<T>(
     return { error: message };
   }
   return { data: result.data as T };
+}
+
+export function getError(error: unknown) {
+  let errorMessage = "Something unexpected happened";
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "status" in error &&
+    typeof error.status === "number" &&
+    error.status >= 400 &&
+    error.status <= 599 &&
+    "data" in error &&
+    error.data !== null &&
+    typeof error.data === "object" &&
+    "error" in error.data &&
+    typeof error.data.error === "string"
+  ) {
+    console.log("get message");
+    errorMessage = error.data.error;
+  }
+
+  return errorMessage;
 }

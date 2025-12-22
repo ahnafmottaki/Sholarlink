@@ -1,5 +1,20 @@
 import { ACCOUNT_TYPES } from "@/constants/document-types";
 
+type GetAgent = {
+  _id: string;
+  country: string;
+  contactNo: string;
+  role: "agent";
+  name: string;
+  email: string;
+  address: string;
+  accountType: keyof typeof ACCOUNT_TYPES;
+  documentType: string;
+  orgName?: string;
+  documentPath: string;
+  status: "approved" | "pending" | "rejected";
+};
+
 type ManageAgentRes = {
   _id: string;
   name: string;
@@ -12,4 +27,4 @@ type ManageAgentRes = {
   accountType: keyof typeof ACCOUNT_TYPES;
 };
 
-export type { ManageAgentRes };
+export type { ManageAgentRes, GetAgent };
