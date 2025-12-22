@@ -2,13 +2,13 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../baseApi";
 import { endpoints } from "./endpoints";
 
-const agentApi = createApi({
-  reducerPath: "agentApi",
+const adminApi = createApi({
+  reducerPath: "adminApi",
   baseQuery: axiosBaseQuery({
-    baseUrl: "/agent",
+    baseUrl: "/admin",
   }),
-  endpoints,
+  endpoints: endpoints,
 });
 
-export { agentApi };
-export const { useGetDashboardQuery } = agentApi;
+export { adminApi };
+export const { useGetAdminDashboardQuery } = adminApi;

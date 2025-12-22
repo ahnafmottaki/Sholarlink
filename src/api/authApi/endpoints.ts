@@ -4,7 +4,7 @@ import type { Builder } from "../publicApi";
 const endpoints = (builder: Builder<"authApi">) => ({
   register: builder.mutation<ServerRes, FormData>({
     query: (credentials) => ({
-      url: "/auth/register",
+      url: "/register",
       method: "POST",
       body: credentials,
     }),
@@ -14,7 +14,7 @@ const endpoints = (builder: Builder<"authApi">) => ({
     { username: string; password: string }
   >({
     query: ({ username, password }) => ({
-      url: "/auth/login",
+      url: "/login",
       method: "POST",
       body: { username, password },
     }),
@@ -24,7 +24,7 @@ const endpoints = (builder: Builder<"authApi">) => ({
     { username: string; password: string }
   >({
     query: ({ username, password }) => ({
-      url: "/auth/adminLogin",
+      url: "/adminLogin",
       method: "POST",
       body: { username, password },
     }),

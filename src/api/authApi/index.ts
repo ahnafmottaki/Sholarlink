@@ -5,7 +5,9 @@ import { axiosBaseQuery } from "../baseApi";
 
 const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: axiosBaseQuery({}),
+  baseQuery: axiosBaseQuery({
+    baseUrl: "/auth",
+  }),
   endpoints,
 });
 export const {

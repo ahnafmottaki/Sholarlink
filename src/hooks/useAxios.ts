@@ -4,7 +4,10 @@ import { useCallback, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 
-const axiosInstance = axios.create();
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_DOMAIN!,
+  withCredentials: true,
+});
 
 const getErrorMessage = (error: AxiosError): string => {
   if (error.response?.data) {
@@ -22,7 +25,7 @@ const useAxios = () => {
     (error: AxiosError, currentPathName: string) => {
       const publicRoutes = ["/agentLogin", "/agentRegister", "/adminLogin"];
       const isPublicRoute = publicRoutes.some((route) =>
-        currentPathName.startsWith(route),
+        currentPathName.startsWith(route)
       );
       if (
         !isPublicRoute &&
@@ -39,7 +42,7 @@ const useAxios = () => {
         });
       }
     },
-    [navigate],
+    [navigate]
   );
 
   useEffect(() => {
@@ -82,7 +85,7 @@ const useAxios = () => {
         }
 
         return Promise.reject(error);
-      },
+      }
     );
     return () => {
       axiosInstance.interceptors.response.eject(resInterceptor);

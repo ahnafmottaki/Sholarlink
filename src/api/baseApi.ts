@@ -1,10 +1,9 @@
 import { axiosInstance } from "@/hooks/useAxios";
 import { type BaseQueryFn } from "@reduxjs/toolkit/query";
 import type { AxiosError, AxiosRequestConfig } from "axios";
-const BASE_URL = import.meta.env.VITE_DOMAIN!;
 const axiosBaseQuery =
   ({
-    baseUrl = BASE_URL,
+    baseUrl = "",
   }: {
     baseUrl?: string;
   }): BaseQueryFn<
@@ -26,7 +25,6 @@ const axiosBaseQuery =
         data: body,
         params,
         headers,
-        withCredentials: true,
       });
       return { data: result.data };
     } catch (axiosError) {

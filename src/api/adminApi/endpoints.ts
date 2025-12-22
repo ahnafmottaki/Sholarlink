@@ -1,13 +1,11 @@
 import type { ServerRes } from "@/types/axios";
 import type { Builder } from "../publicApi";
 
-const endpoints = (builder: Builder<"agentApi">) => ({
-  getDashboard: builder.query<ServerRes, void>({
+export const endpoints = (builder: Builder<"adminApi">) => ({
+  getAdminDashboard: builder.query<ServerRes, void>({
     query: () => ({
-      url: "/",
+      url: `/`,
       method: "GET",
     }),
   }),
 });
-
-export { endpoints };

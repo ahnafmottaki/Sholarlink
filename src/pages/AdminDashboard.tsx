@@ -2,10 +2,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, FileText, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router";
+import { useGetAdminDashboardQuery } from "@/api/adminApi";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-
+  const { data, isFetching, isSuccess } = useGetAdminDashboardQuery();
+  if (isSuccess && !isFetching && data) {
+    console.log(data);
+  }
   const stats = [
     {
       title: "Total Agents",
