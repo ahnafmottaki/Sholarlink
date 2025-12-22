@@ -10,14 +10,21 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Eye } from "lucide-react";
-import { useLoaderData, useNavigate } from "react-router";
-import type { ManageAgentRes } from "@/types/admin-response";
+import { useNavigate } from "react-router";
+import { useGetAgentsQuery } from "@/api";
+import Loader from "@/components/custom/Loader";
 
 const ManageAgents = () => {
+  const { data, isSuccess, isFetching } = useGetAgentsQuery();
   const navigate = useNavigate();
-  const data = useLoaderData<ManageAgentRes[]>();
+  if (isFetching) {
+    return (
+      <div className="min-h-screen w-full flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
   console.log(data);
-
   return (
     <>
       <div className="mb-8">
@@ -37,6 +44,7 @@ const ManageAgents = () => {
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead>AccountType</TableHead>
                 <TableHead>Country</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Date</TableHead>
@@ -44,35 +52,33 @@ const ManageAgents = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((agent) => (
-                <TableRow key={agent._id}>
-                  <TableCell className="font-medium">
-                    {agent.full_name || agent.organization_name}
-                  </TableCell>
-                  <TableCell>
-                    {agent.email || agent.organization_email}
-                  </TableCell>
-                  <TableCell>{agent.country}</TableCell>
-                  <TableCell>
-                    <Badge variant="warning">{agent.status}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    {new Date(agent.created_at).toUTCString()}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex gap-2 justify-end">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => navigate(`/admin/agent`)}
-                      >
-                        <Eye className="h-4 w-4 mr-1" />
-                        View Info
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {isSuccess &&
+                data.data.map((agent) => (
+                  <TableRow key={agent._id}>
+                    <TableCell className="font-medium">{agent.name}</TableCell>
+                    <TableCell>{agent.email}</TableCell>
+                    <TableCell>{agent.accountType}</TableCell>
+                    <TableCell>{agent.country}</TableCell>
+                    <TableCell>
+                      <Badge variant="warning">{agent.status}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      {new Date(agent.createdAt).toUTCString()}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex gap-2 justify-end">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => navigate(`/admin/agent`)}
+                        >
+                          <Eye className="h-4 w-4 mr-1" />
+                          View Info
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </CardContent>

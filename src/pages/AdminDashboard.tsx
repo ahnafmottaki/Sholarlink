@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Users, FileText, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useGetAdminDashboardQuery } from "@/api/adminApi";
+import Loader from "@/components/custom/Loader";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -41,6 +42,13 @@ const AdminDashboard = () => {
     },
   ];
 
+  if (isFetching) {
+    return (
+      <div className="min-h-screen w-full flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
   return (
     <>
       <div className="mb-8">

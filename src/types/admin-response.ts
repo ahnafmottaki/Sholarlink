@@ -1,15 +1,15 @@
-import type DOCUMENT_TYPES from "@/constants/document-types";
+import { ACCOUNT_TYPES } from "@/constants/document-types";
 
 type ManageAgentRes = {
   _id: string;
-  full_name?: string;
-  email?: string;
-  organization_email?: string;
-  organization_name?: string;
+  name: string;
+  email: string;
+  orgName?: string;
   country: string;
   status: "pending" | "approved" | "rejected";
-  created_at: string;
-  account_type: keyof typeof DOCUMENT_TYPES;
+  createdAt: string;
+  updatedAt: string;
+  accountType: keyof typeof ACCOUNT_TYPES;
 };
 
 export type { ManageAgentRes };

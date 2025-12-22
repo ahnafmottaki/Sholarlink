@@ -11,4 +11,4 @@ const adminApi = createApi({
 });
 
 export { adminApi };
-export const { useGetAdminDashboardQuery } = adminApi;
+export const { useGetAdminDashboardQuery, useGetAgentsQuery } = adminApi;

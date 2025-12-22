@@ -15,7 +15,8 @@ const AdminLayout = () => {
   ];
   return (
     <>
-      <Toaster />
+      <Toaster duration={3000} position="top-center" />
+
       <div className="h-screen bg-background flex">
         {/* Sidebar */}
         <Sidebar menuItems={menuItems} />
