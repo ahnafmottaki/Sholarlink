@@ -14,6 +14,19 @@ import { useNavigate } from "react-router";
 import { useGetAgentsQuery } from "@/api";
 import Loader from "@/components/custom/Loader";
 
+export function getVariant(status: string) {
+  switch (status) {
+    case "approved":
+      return "success";
+    case "rejected":
+      return "warning";
+    case "pending":
+      return "pending";
+    default:
+      return "default";
+  }
+}
+
 const ManageAgents = () => {
   const { data, isSuccess, isFetching } = useGetAgentsQuery();
   const navigate = useNavigate();
@@ -60,7 +73,9 @@ const ManageAgents = () => {
                     <TableCell>{agent.accountType}</TableCell>
                     <TableCell>{agent.country}</TableCell>
                     <TableCell>
-                      <Badge variant="warning">{agent.status}</Badge>
+                      <Badge variant={getVariant(agent.status)}>
+                        {agent.status}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       {new Date(agent.createdAt).toUTCString()}

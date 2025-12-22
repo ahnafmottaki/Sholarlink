@@ -16,6 +16,7 @@ import { useNavigate, useParams } from "react-router";
 import { useGetAgentQuery } from "@/api";
 import Loader from "@/components/custom/Loader";
 import { getError } from "@/lib/utils";
+import { getVariant } from "./ManageAgents";
 
 interface ViewAgentProp {
   isAdmin?: boolean;
@@ -27,6 +28,7 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
   if (!params.id) {
     throw new Error("invalid id");
   }
+
   const { isFetching, data, isError, error, isSuccess } = useGetAgentQuery({
     id: params.id,
   });
@@ -38,30 +40,12 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
     );
   }
 
-  if (isError && error) {
+  if (!isSuccess && !data && isError && error) {
+    console.log(error);
     return <div>{getError(error)}</div>;
   }
-  if (isSuccess && data) {
-    console.log(data);
-  }
-  const agentId = "133435322";
-  // Mock data - replace with actual API call
-  const agentData = {
-    id: agentId,
-    name: "John Smith",
-    email: "john@example.com",
-    phone: "+1 234 567 8900",
-    country: "USA",
-    experience: "5 years",
-    status: "pending",
-    submittedDate: "2024-01-15",
-    documents: [
-      { name: "ID Document", url: "#", type: "pdf" },
-      { name: "Experience Certificate", url: "#", type: "pdf" },
-      { name: "Education Certificate", url: "#", type: "pdf" },
-    ],
-    bio: "Experienced education consultant with a proven track record of helping students gain admission to top universities. Specialized in US and UK university applications.",
-  };
+  const agentData = data!.data;
+  console.log(data);
 
   return (
     <>
@@ -82,7 +66,10 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
               Review agent information and documents
             </p>
           </div>
-          <Badge variant="warning" className="text-lg px-4 py-2">
+          <Badge
+            variant={getVariant(agentData.status)}
+            className="text-lg px-4 py-2"
+          >
             {agentData.status}
           </Badge>
         </div>
@@ -102,7 +89,9 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
               <label className="text-sm font-medium text-muted-foreground">
                 Full Name
               </label>
-              <p className="text-lg font-semibold mt-1">{agentData.name}</p>
+              <p className="text-lg font-semibold mt-1 capitalize">
+                {agentData.name}
+              </p>
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">
@@ -117,7 +106,7 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
               <label className="text-sm font-medium text-muted-foreground">
                 Phone
               </label>
-              <p className="text-lg mt-1">{agentData.phone}</p>
+              <p className="text-lg mt-1">{agentData.contactNo}</p>
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">
@@ -125,39 +114,32 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
               </label>
               <p className="text-lg mt-1 flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-primary" />
-                {agentData.country}
-              </p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">
-                Experience
-              </label>
-              <p className="text-lg mt-1 flex items-center gap-2">
-                <Briefcase className="h-4 w-4 text-primary" />
-                {agentData.experience}
+                {agentData.country.name.common}
               </p>
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">
                 Submitted Date
               </label>
-              <p className="text-lg mt-1">{agentData.submittedDate}</p>
+              <p className="text-lg mt-1">
+                {new Date(agentData.createdAt).toLocaleDateString()}
+              </p>
             </div>
           </CardContent>
         </Card>
 
         {/* Bio */}
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Bio / Background</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-foreground leading-relaxed">{agentData.bio}</p>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Documents */}
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
@@ -190,11 +172,11 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
 
       {/* Action Buttons */}
-      {isAdmin && (
+      {isAdmin && agentData.status === "pending" && (
         <div className="flex gap-4 justify-end">
           <Button
             size="lg"
@@ -202,7 +184,7 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
             className="text-destructive hover:text-destructive"
             onClick={() => {
               // Handle rejection
-              console.log("Rejecting agent:", agentId);
+              console.log("Rejecting agent:", agentData._id);
             }}
           >
             <XCircle className="h-5 w-5 mr-2" />
@@ -213,11 +195,28 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
             className="bg-success hover:bg-success/90"
             onClick={() => {
               // Handle approval
-              console.log("Approving agent:", agentId);
+              console.log("Approving agent:", agentData._id);
             }}
           >
             <CheckCircle className="h-5 w-5 mr-2" />
             Approve
+          </Button>
+        </div>
+      )}
+
+      {isAdmin && agentData.status === "approved" && (
+        <div className="flex justify-end">
+          <Button
+            size="lg"
+            variant="outline"
+            className="text-destructive hover:text-destructive"
+            onClick={() => {
+              // Handle rejection
+              console.log("Deleting agent", agentData._id);
+            }}
+          >
+            <XCircle className="h-5 w-5 mr-2" />
+            Delete
           </Button>
         </div>
       )}

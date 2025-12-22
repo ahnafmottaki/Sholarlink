@@ -50,18 +50,25 @@ export function getError(error: unknown) {
   if (
     typeof error === "object" &&
     error !== null &&
-    "status" in error &&
-    typeof error.status === "number" &&
-    error.status >= 400 &&
-    error.status <= 599 &&
     "data" in error &&
-    error.data !== null &&
-    typeof error.data === "object" &&
-    "error" in error.data &&
-    typeof error.data.error === "string"
+    error.data !== null
   ) {
-    console.log("get message");
-    errorMessage = error.data.error;
+    if (typeof error.data === "string") {
+      switch (error.data) {
+        case "Network Error":
+          errorMessage = "Please check your internet connection and try again";
+      }
+    } else if (
+      typeof error.data === "object" &&
+      "status" in error &&
+      typeof error.status === "number" &&
+      error.status >= 400 &&
+      error.status <= 599 &&
+      "error" in error.data &&
+      typeof error.data.error === "string"
+    ) {
+      errorMessage = error.data.error;
+    }
   }
 
   return errorMessage;

@@ -2,7 +2,10 @@ import { ACCOUNT_TYPES } from "@/constants/document-types";
 
 type GetAgent = {
   _id: string;
-  country: string;
+  country: {
+    callingCode: string;
+    name: { common: string };
+  };
   contactNo: string;
   role: "agent";
   name: string;
@@ -13,6 +16,7 @@ type GetAgent = {
   orgName?: string;
   documentPath: string;
   status: "approved" | "pending" | "rejected";
+  createdAt: string;
 };
 
 type ManageAgentRes = {
