@@ -17,6 +17,7 @@ import { useGetAgentQuery } from "@/api";
 import Loader from "@/components/custom/Loader";
 import { getError } from "@/lib/utils";
 import { getVariant } from "./ManageAgents";
+import GoTo from "@/components/custom/GoTo";
 
 interface ViewAgentProp {
   isAdmin?: boolean;
@@ -32,6 +33,7 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
   const { isFetching, data, isError, error, isSuccess } = useGetAgentQuery(
     params.id
   );
+
   if (isFetching) {
     return (
       <div className="min-h-screen w-full flex justify-center items-center">
@@ -45,18 +47,10 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
     return <div>{getError(error)}</div>;
   }
   const agentData = data!.data;
-  console.log(data);
 
   return (
     <>
-      <Button
-        variant="link"
-        className="mb-6"
-        onClick={() => navigate("/admin/manageAgents")}
-      >
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to Manage Agents
-      </Button>
+      <GoTo path="/admin/manageAgents">Back to Manage Agents</GoTo>
 
       <div className="mb-8">
         <div className="flex items-center justify-between">
@@ -88,6 +82,33 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
               <XCircle className="h-5 w-5 mr-2" />
               Delete
             </Button>
+          )}
+          {isAdmin && agentData.status === "pending" && (
+            <div className="flex gap-4 justify-end">
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-destructive hover:text-destructive"
+                onClick={() => {
+                  // Handle rejection
+                  console.log("Rejecting agent:", agentData._id);
+                }}
+              >
+                <XCircle className="h-5 w-5 mr-2" />
+                Reject
+              </Button>
+              <Button
+                size="lg"
+                className="bg-success hover:bg-success/90"
+                onClick={() => {
+                  // Handle approval
+                  console.log("Approving agent:", agentData._id);
+                }}
+              >
+                <CheckCircle className="h-5 w-5 mr-2" />
+                Approve
+              </Button>
+            </div>
           )}
         </div>
       </div>
@@ -171,11 +192,11 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
                     <FileText className="h-6 w-6 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">
-                      {agentData.accountType}
+                    <p className="font-medium truncate capitalize">
+                      {agentData.accountType} Agent
                     </p>
-                    <p className="text-sm text-muted-foreground uppercase">
-                      {agentData.documentType}
+                    <p className="text-sm text-muted-foreground capitalize">
+                      {agentData.documentType.split("_").join(" ")}
                     </p>
                   </div>
                 </div>
@@ -192,33 +213,6 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
       </div>
 
       {/* Action Buttons */}
-      {isAdmin && agentData.status === "pending" && (
-        <div className="flex gap-4 justify-end">
-          <Button
-            size="lg"
-            variant="outline"
-            className="text-destructive hover:text-destructive"
-            onClick={() => {
-              // Handle rejection
-              console.log("Rejecting agent:", agentData._id);
-            }}
-          >
-            <XCircle className="h-5 w-5 mr-2" />
-            Reject
-          </Button>
-          <Button
-            size="lg"
-            className="bg-success hover:bg-success/90"
-            onClick={() => {
-              // Handle approval
-              console.log("Approving agent:", agentData._id);
-            }}
-          >
-            <CheckCircle className="h-5 w-5 mr-2" />
-            Approve
-          </Button>
-        </div>
-      )}
     </>
   );
 };
