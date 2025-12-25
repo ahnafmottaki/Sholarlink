@@ -16,6 +16,7 @@ import StudentProfile from "@/pages/StudentProfile";
 import NotFound from "@/pages/NotFound";
 import AgentLogin from "@/pages/AgentLogin";
 import AdminLogin from "@/pages/AdminLogin";
+import AdminAgent from "@/pages/AdminAgent";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
         element: <ManageAgents />,
       },
       { path: "manageStudents", element: <ManageStudents /> },
-      { path: "agent/:id", element: <ViewAgent isAdmin /> },
+      { path: "agent/:id", element: <AdminAgent /> },
     ],
   },
   {

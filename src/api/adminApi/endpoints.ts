@@ -22,4 +22,18 @@ export const endpoints = (builder: Builder<"adminApi", "Agent">) => ({
     }),
     keepUnusedDataFor: 15 * 60,
   }),
+  updateAgentStatus: builder.mutation<
+    ServerRes,
+    { id: string; status: "approved" | "pending" | "reject" }
+  >({
+    query(arg) {
+      return {
+        url: `/agents/${arg.id}`,
+        method: "PATCH",
+        params: {
+          status: arg.status,
+        },
+      };
+    },
+  }),
 });

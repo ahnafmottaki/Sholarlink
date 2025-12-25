@@ -16,4 +16,5 @@ export const {
   useGetAdminDashboardQuery,
   useGetAgentsQuery,
   useGetAgentQuery,
+  useUpdateAgentStatusMutation,
 } = adminApi;
