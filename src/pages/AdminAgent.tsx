@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import ViewAgent from "./ViewAgent";
-import { useGetAgentQuery } from "@/api";
+import { useGetAgentQuery, useUpdateAgentStatusMutation } from "@/api";
 import Loader from "@/components/custom/Loader";
 import { getError } from "@/lib/utils";
 import ActionButton from "@/components/custom/Action";
@@ -15,6 +15,7 @@ const AdminAgent = () => {
   const { isFetching, data, isError, error, isSuccess } = useGetAgentQuery(
     params.id
   );
+  const [updateStatus] = useUpdateAgentStatusMutation();
 
   if (isFetching) {
     return (
@@ -30,17 +31,19 @@ const AdminAgent = () => {
 
   const agentData = data!.data;
 
-  const deleteHandler = () => {
-    console.log("deleting agent");
-  };
+  const deleteHandler = () => {};
 
   const rejectHandler = () => {
     // Handle rejection
+    updateStatus({ id: agentData._id, status: "rejected" });
+
     console.log("Rejecting agent:", agentData._id);
   };
 
   const approveHandler = () => {
     // Handle approval
+    updateStatus({ id: agentData._id, status: "approved" });
+
     console.log("Approving agent:", agentData._id);
   };
 

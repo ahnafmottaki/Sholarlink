@@ -24,7 +24,7 @@ export const endpoints = (builder: Builder<"adminApi", "Agent">) => ({
   }),
   updateAgentStatus: builder.mutation<
     ServerRes,
-    { id: string; status: "approved" | "pending" | "reject" }
+    { id: string; status: "approved" | "rejected" }
   >({
     query(arg) {
       return {
