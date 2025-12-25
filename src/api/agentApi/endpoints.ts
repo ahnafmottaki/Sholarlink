@@ -1,5 +1,5 @@
 import type { ServerRes } from "@/types/axios";
-import type { Builder } from "../publicApi";
+import type { Builder } from "../baseApi";
 
 const endpoints = (builder: Builder<"agentApi">) => ({
   getDashboard: builder.query<ServerRes, void>({

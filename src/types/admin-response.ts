@@ -14,7 +14,7 @@ type GetAgent = {
   accountType: keyof typeof ACCOUNT_TYPES;
   documentType: string;
   orgName?: string;
-  documentPath: string;
+  documentUrl: string;
   status: "approved" | "pending" | "rejected";
   createdAt: string;
 };

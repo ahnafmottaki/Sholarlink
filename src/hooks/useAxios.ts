@@ -34,7 +34,10 @@ const useAxios = () => {
         toast.error("Your session has expired, please login again");
         localStorage.clear();
         sessionStorage.clear();
-        navigate("/agentLogin", {
+        const navigateTo = location.pathname.startsWith("/admin")
+          ? "/adminLogin"
+          : "/agentLogin";
+        navigate(navigateTo, {
           state: {
             from: currentPathName,
             replace: true,

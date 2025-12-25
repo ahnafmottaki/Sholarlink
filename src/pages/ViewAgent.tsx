@@ -29,9 +29,9 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
     throw new Error("invalid id");
   }
 
-  const { isFetching, data, isError, error, isSuccess } = useGetAgentQuery({
-    id: params.id,
-  });
+  const { isFetching, data, isError, error, isSuccess } = useGetAgentQuery(
+    params.id
+  );
   if (isFetching) {
     return (
       <div className="min-h-screen w-full flex justify-center items-center">
@@ -60,18 +60,35 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
 
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold mb-2">Agent Application</h1>
-            <p className="text-muted-foreground">
-              Review agent information and documents
-            </p>
+          <div className="flex items-center gap-4">
+            <div>
+              <h1 className="text-4xl font-bold mb-2">Agent Application</h1>
+              <p className="text-muted-foreground">
+                Review agent information and documents
+              </p>
+            </div>
+            <Badge
+              variant={getVariant(agentData.status)}
+              className="text-lg px-4 py-2"
+            >
+              {agentData.status}
+            </Badge>
           </div>
-          <Badge
-            variant={getVariant(agentData.status)}
-            className="text-lg px-4 py-2"
-          >
-            {agentData.status}
-          </Badge>
+
+          {isAdmin && agentData.status === "approved" && (
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-destructive hover:text-destructive"
+              onClick={() => {
+                // Handle rejection
+                console.log("Deleting agent", agentData._id);
+              }}
+            >
+              <XCircle className="h-5 w-5 mr-2" />
+              Delete
+            </Button>
+          )}
         </div>
       </div>
 
@@ -139,7 +156,7 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
         </Card> */}
 
         {/* Documents */}
-        {/* <Card>
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
@@ -148,31 +165,30 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {agentData.documents.map((doc, index) => (
-                <div
-                  key={index}
-                  className="border rounded-lg p-4 hover:border-primary transition-colors"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <FileText className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium truncate">{doc.name}</p>
-                      <p className="text-sm text-muted-foreground uppercase">
-                        {doc.type}
-                      </p>
-                    </div>
+              <div className="border rounded-lg p-4 hover:border-primary transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <FileText className="h-6 w-6 text-primary" />
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium truncate">
+                      {agentData.accountType}
+                    </p>
+                    <p className="text-sm text-muted-foreground uppercase">
+                      {agentData.documentType}
+                    </p>
+                  </div>
+                </div>
+                <a href={agentData.documentUrl} target="_blank">
                   <Button className="w-full" variant="outline" size="sm">
                     <Download className="h-4 w-4 mr-2" />
-                    Download
+                    view
                   </Button>
-                </div>
-              ))}
+                </a>
+              </div>
             </div>
           </CardContent>
-        </Card> */}
+        </Card>
       </div>
 
       {/* Action Buttons */}
@@ -200,23 +216,6 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
           >
             <CheckCircle className="h-5 w-5 mr-2" />
             Approve
-          </Button>
-        </div>
-      )}
-
-      {isAdmin && agentData.status === "approved" && (
-        <div className="flex justify-end">
-          <Button
-            size="lg"
-            variant="outline"
-            className="text-destructive hover:text-destructive"
-            onClick={() => {
-              // Handle rejection
-              console.log("Deleting agent", agentData._id);
-            }}
-          >
-            <XCircle className="h-5 w-5 mr-2" />
-            Delete
           </Button>
         </div>
       )}

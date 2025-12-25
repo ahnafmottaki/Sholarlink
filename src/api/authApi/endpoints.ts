@@ -1,5 +1,5 @@
 import type { ServerRes } from "@/types/axios";
-import type { Builder } from "../publicApi";
+import type { Builder } from "../baseApi";
 
 const endpoints = (builder: Builder<"authApi">) => ({
   register: builder.mutation<ServerRes, FormData>({
@@ -27,6 +27,12 @@ const endpoints = (builder: Builder<"authApi">) => ({
       url: "/adminLogin",
       method: "POST",
       body: { username, password },
+    }),
+  }),
+  logout: builder.mutation<ServerRes, void>({
+    query: () => ({
+      url: `/logout`,
+      method: "POST",
     }),
   }),
 });

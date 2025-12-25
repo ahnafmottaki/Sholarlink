@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/hooks/useAxios";
-import { type BaseQueryFn } from "@reduxjs/toolkit/query";
+import { type BaseQueryFn, type EndpointBuilder } from "@reduxjs/toolkit/query";
 import type { AxiosError, AxiosRequestConfig } from "axios";
 const axiosBaseQuery =
   ({
@@ -37,6 +37,10 @@ const axiosBaseQuery =
       };
     }
   };
+
+export type Builder<T extends string, X = void> = X extends string
+  ? EndpointBuilder<BaseQueryFn, X, T>
+  : EndpointBuilder<BaseQueryFn, never, T>;
 
 export { axiosBaseQuery };
 

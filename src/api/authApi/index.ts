@@ -14,5 +14,6 @@ export const {
   useRegisterMutation,
   useAgentLoginMutation,
   useAdminLoginMutation,
+  useLogoutMutation,
 } = authApi;
 export { authApi };

@@ -1,5 +1,5 @@
 import type { Country } from "@/types/country";
-import type { Builder } from ".";
+import type { Builder } from "../baseApi";
 
 interface CountryRes {
   success: true;

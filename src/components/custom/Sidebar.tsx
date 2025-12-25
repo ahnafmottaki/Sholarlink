@@ -8,9 +8,11 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "../ui/button";
-import { Link, NavLink } from "react-router";
-import React from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
+import React, { useEffect } from "react";
 import { useTheme } from "@/context/theme/theme-context";
+import { useLogoutMutation } from "@/api";
+import { toast } from "sonner";
 
 interface SideBarProps {
   menuItems: {
@@ -23,6 +25,25 @@ interface SideBarProps {
 const Sidebar: React.FC<SideBarProps> = ({ menuItems }) => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState<boolean>(false);
   const { setTheme, theme } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [logout, { isSuccess, data }] = useLogoutMutation();
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message);
+      const pathName = location.pathname.startsWith("/admin")
+        ? "/adminLogin"
+        : "/agentLogin";
+      navigate(pathName, {
+        state: { from: location.pathname },
+      });
+    }
+  }, [isSuccess, location, data]);
   return (
     <>
       <Button
@@ -96,6 +117,7 @@ const Sidebar: React.FC<SideBarProps> = ({ menuItems }) => {
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 text-destructive border hover:bg-destructive/10"
+            onClick={handleLogout}
           >
             <LogOut className="h-5 w-5" />
             Logout

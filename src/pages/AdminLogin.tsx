@@ -11,13 +11,14 @@ const AdminLogin = () => {
   const [adminLogin, { isLoading, isSuccess, data }] = useAdminLoginMutation();
   if (!isLoading && isSuccess && data) {
     console.log("Login successful");
+    console.log(location.state?.from);
     return <Navigate to={location.state?.from || "/admin"}></Navigate>;
   }
   const loginHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const result = parseSchema<{ username: string; password: string }>(
       event.currentTarget,
-      loginSchema,
+      loginSchema
     );
     if (result.error) {
       toast.error(result.error);

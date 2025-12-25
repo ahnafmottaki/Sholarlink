@@ -8,6 +8,7 @@ const adminApi = createApi({
     baseUrl: "/admin",
   }),
   endpoints: endpoints,
+  tagTypes: ["Agent"],
 });
 
 export { adminApi };
