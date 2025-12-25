@@ -18,6 +18,7 @@ import Loader from "@/components/custom/Loader";
 import { getError } from "@/lib/utils";
 import { getVariant } from "./ManageAgents";
 import GoTo from "@/components/custom/GoTo";
+import ActionButton from "@/components/custom/Action";
 
 interface ViewAgentProp {
   isAdmin?: boolean;
@@ -33,6 +34,20 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
   const { isFetching, data, isError, error, isSuccess } = useGetAgentQuery(
     params.id
   );
+
+  const deleteHandler = () => {
+    console.log("deleting agent");
+  };
+
+  const rejectHandler = () => {
+    // Handle rejection
+    console.log("Rejecting agent:", agentData._id);
+  };
+
+  const approveHandler = () => {
+    // Handle approval
+    console.log("Approving agent:", agentData._id);
+  };
 
   if (isFetching) {
     return (
@@ -70,44 +85,31 @@ const ViewAgent = ({ isAdmin }: ViewAgentProp) => {
           </div>
 
           {isAdmin && agentData.status === "approved" && (
-            <Button
-              size="lg"
-              variant="outline"
+            <ActionButton
               className="text-destructive hover:text-destructive"
-              onClick={() => {
-                // Handle rejection
-                console.log("Deleting agent", agentData._id);
-              }}
+              icon={<XCircle className="h-5 w-5 mr-2" />}
+              onClick={deleteHandler}
             >
-              <XCircle className="h-5 w-5 mr-2" />
               Delete
-            </Button>
+            </ActionButton>
           )}
+
           {isAdmin && agentData.status === "pending" && (
             <div className="flex gap-4 justify-end">
-              <Button
-                size="lg"
-                variant="outline"
+              <ActionButton
                 className="text-destructive hover:text-destructive"
-                onClick={() => {
-                  // Handle rejection
-                  console.log("Rejecting agent:", agentData._id);
-                }}
+                icon={<XCircle className="h-5 w-5 mr-2" />}
+                onClick={rejectHandler}
               >
-                <XCircle className="h-5 w-5 mr-2" />
                 Reject
-              </Button>
-              <Button
-                size="lg"
-                className="bg-success hover:bg-success/90"
-                onClick={() => {
-                  // Handle approval
-                  console.log("Approving agent:", agentData._id);
-                }}
+              </ActionButton>
+              <ActionButton
+                className=" text-green-500 hover:text-green-400"
+                icon={<CheckCircle className="h-5 w-5 mr-2" />}
+                onClick={approveHandler}
               >
-                <CheckCircle className="h-5 w-5 mr-2" />
                 Approve
-              </Button>
+              </ActionButton>
             </div>
           )}
         </div>
