@@ -14,12 +14,25 @@ export const endpoints = (builder: Builder<"adminApi", "Agent">) => ({
       url: "/agents",
       method: "GET",
     }),
+    providesTags(result) {
+      return result?.data
+        ? ([
+            { type: "Agent", id: "LIST" },
+            ...result.data.map((agent) => ({ type: "Agent", id: agent._id })),
+          ] as { type: "Agent"; id: string }[])
+        : [{ type: "Agent", id: "LIST" }];
+    },
   }),
   getAgent: builder.query<ServerRes<GetAgent>, string>({
     query: (id) => ({
       url: `/agents/${id}`,
       method: "GET",
     }),
+    providesTags(result, error, arg, meta) {
+      return result?.data
+        ? [{ type: "Agent", id: result.data._id }]
+        : [{ type: "Agent", id: arg }];
+    },
     keepUnusedDataFor: 15 * 60,
   }),
   updateAgentStatus: builder.mutation<
@@ -34,6 +47,12 @@ export const endpoints = (builder: Builder<"adminApi", "Agent">) => ({
           status: arg.status,
         },
       };
+    },
+    invalidatesTags(result, error, arg, meta) {
+      return [
+        { type: "Agent", id: arg.id },
+        { type: "Agent", id: "LIST" },
+      ];
     },
   }),
 });
