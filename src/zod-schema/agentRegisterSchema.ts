@@ -18,7 +18,7 @@ const baseAgentSchema = loginSchema.extend({
     .refine((file) => file.type === "application/pdf", "document must be a PDF")
     .refine(
       (file) => file.size <= 1024 * 1024 * 2,
-      "document must be less than 2MB",
+      "document must be less than 2MB"
     ),
   name: z.string().min(3, "full name is required"),
   email: z.email("invalid email address"),

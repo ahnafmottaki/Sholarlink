@@ -9,20 +9,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DropFile from "@/components/custom/DropFile";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
+import { parseSchema } from "@/lib/utils";
+import { studentProfileSchema } from "@/zod-schema/studentProfileSchema";
+import { toast } from "sonner";
 
+const TABS = ["personal", "academic", "documents"] as const;
+type Tabs = (typeof TABS)[number];
 const CreateStudent = () => {
-  const [activeTab, setActiveTab] = useState("personal");
+  const [activeTab, setActiveTab] = useState<Tabs>("personal");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(e.target);
     e.preventDefault();
-    const studentProfile = Object.fromEntries(
-      new FormData(e.currentTarget).entries()
+    const result = parseSchema<typeof studentProfileSchema>(
+      e.currentTarget,
+      studentProfileSchema
     );
-    console.log(studentProfile);
+    if (result.error) {
+      toast.error(result.error);
+      return;
+    }
+    console.log(result.data);
   };
 
   return (
@@ -44,14 +52,25 @@ const CreateStudent = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit}>
-              <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="grid w-full grid-cols-3 mb-4">
-                  <TabsTrigger value="personal">Personal</TabsTrigger>
-                  <TabsTrigger value="academic">Academic</TabsTrigger>
-                  <TabsTrigger value="documents">Documents</TabsTrigger>
-                </TabsList>
+              <section>
+                <div className="grid w-full grid-cols-3 mb-4">
+                  {TABS.map((t) => (
+                    <Button
+                      className="capitalize"
+                      onClick={() => setActiveTab(t)}
+                      variant={activeTab === t ? "default" : "outline"}
+                      key={t}
+                    >
+                      {t}
+                    </Button>
+                  ))}
+                </div>
 
-                <TabsContent value="personal" className="space-y-8 ">
+                <section
+                  className={`space-y-8  ${
+                    activeTab === "personal" ? "block" : "hidden"
+                  }`}
+                >
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-3">
                       <Label htmlFor="firstName">First Name</Label>
@@ -59,6 +78,7 @@ const CreateStudent = () => {
                         id="firstName"
                         name="firstName"
                         placeholder="John"
+                        defaultValue={"john"}
                         required
                       />
                     </div>
@@ -69,6 +89,7 @@ const CreateStudent = () => {
                         name="lastName"
                         placeholder="Doe"
                         required
+                        defaultValue={"doe"}
                       />
                     </div>
                   </div>
@@ -79,26 +100,32 @@ const CreateStudent = () => {
                       type="email"
                       name="email"
                       placeholder="john.doe@example.com"
+                      defaultValue="john.doe@example.com"
                       required
                     />
                   </div>
                   <div className="space-y-3">
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="contactNo">Phone Number</Label>
                     <Input
-                      id="phone"
+                      id="contactNo"
                       type="tel"
-                      name="phone"
+                      name="contactNo"
                       placeholder="+1 (555) 000-0000"
+                      defaultValue={"01329553511"}
                       required
                     />
                   </div>
                   <div className="space-y-3">
                     <Label htmlFor="dob">Date of Birth</Label>
-                    <Input id="dob" name="dob" type="date" required />
+                    <Input id="dob" name="dateOfBirth" type="date" required />
                   </div>
-                </TabsContent>
+                </section>
 
-                <TabsContent value="academic" className="space-y-8">
+                <section
+                  className={`space-y-8  ${
+                    activeTab === "academic" ? "block" : "hidden"
+                  }`}
+                >
                   <div className="space-y-3">
                     <Label htmlFor="gpa">GPA</Label>
                     <Input
@@ -108,15 +135,17 @@ const CreateStudent = () => {
                       step="0.01"
                       placeholder="3.8"
                       required
+                      defaultValue={"4.5"}
                     />
                   </div>
                   <div className="space-y-3">
                     <Label htmlFor="sat">SAT Score (Optional)</Label>
                     <Input
                       id="sat"
-                      name="sat"
+                      name="satScore"
                       type="number"
                       placeholder="1450"
+                      defaultValue="1450"
                     />
                   </div>
                   <div className="space-y-3">
@@ -125,6 +154,7 @@ const CreateStudent = () => {
                       id="major"
                       name="major"
                       placeholder="Computer Science"
+                      defaultValue="computerScience"
                       required
                     />
                   </div>
@@ -134,26 +164,46 @@ const CreateStudent = () => {
                       id="university"
                       name="university"
                       placeholder="Harvard University"
+                      defaultValue={"harvard-university"}
                       required
                     />
                   </div>
-                </TabsContent>
+                </section>
 
-                <TabsContent value="documents" className="space-y-8">
+                <section
+                  className={`space-y-8  ${
+                    activeTab === "documents" ? "block" : "hidden"
+                  }`}
+                >
                   <div className="space-y-3">
                     <Label>Passport Copy</Label>
-                    <DropFile name="passport" fnWithFile={console.log} />
+                    <DropFile
+                      name="passport"
+                      fnWithFile={console.log}
+                      accept="application/pdf"
+                      required
+                    />
                   </div>
                   <div className="space-y-3">
                     <Label>Academic Transcripts</Label>
-                    <DropFile name="transcripts" fnWithFile={console.log} />
+                    <DropFile
+                      name="transcripts"
+                      fnWithFile={console.log}
+                      accept="application/pdf"
+                      required
+                    />
                   </div>
                   <div className="space-y-3">
                     <Label>Student Photo</Label>
-                    <DropFile name="photo" fnWithFile={console.log} />
+                    <DropFile
+                      name="photo"
+                      fnWithFile={console.log}
+                      accept="image/png, image/jpg"
+                      required
+                    />
                   </div>
-                </TabsContent>
-              </Tabs>
+                </section>
+              </section>
 
               <div className="mt-6 flex gap-4">
                 <Button
@@ -161,9 +211,11 @@ const CreateStudent = () => {
                   type="button"
                   className={`bg-accent text-accent-foreground hover:bg-accent/70 hover:text-accent-foreground/70 disabled:bg-secondary disabled:text-secondary-foreground`}
                   onClick={() => {
-                    const tabs = ["personal", "academic", "documents"];
-                    const currentIndex = tabs.indexOf(activeTab);
-                    setActiveTab(tabs[currentIndex - 1]);
+                    if (activeTab === "documents") {
+                      setActiveTab("academic");
+                    } else {
+                      setActiveTab("personal");
+                    }
                   }}
                 >
                   <ArrowLeftCircle />
@@ -173,9 +225,11 @@ const CreateStudent = () => {
                   className={`bg-accent text-accent-foreground hover:bg-accent/70 hover:text-accent-foreground/70 disabled:bg-secondary disabled:text-secondary-foreground`}
                   type="button"
                   onClick={() => {
-                    const tabs = ["personal", "academic", "documents"];
-                    const currentIndex = tabs.indexOf(activeTab);
-                    setActiveTab(tabs[currentIndex + 1]);
+                    if (activeTab === "personal") {
+                      setActiveTab("academic");
+                    } else {
+                      setActiveTab("documents");
+                    }
                   }}
                 >
                   <ArrowRightCircle />

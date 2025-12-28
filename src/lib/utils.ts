@@ -39,6 +39,7 @@ export function parseSchema<T>(
   const formData = Object.fromEntries(new FormData(formElement).entries());
   const result = zodSchema.safeParse(formData);
   if (!result.success) {
+    console.log(result.error.issues);
     const message = result.error.issues[0].message;
     return { error: message };
   }
