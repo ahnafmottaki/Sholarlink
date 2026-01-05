@@ -11,26 +11,42 @@ import {
 } from "@/components/ui/card";
 import DropFile from "@/components/custom/DropFile";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
-import { parseSchema } from "@/lib/utils";
-import { studentProfileSchema } from "@/zod-schema/studentProfileSchema";
+import { createFormData, parseSchema } from "@/lib/utils";
+import {
+  studentProfileSchema,
+  type Student,
+} from "@/zod-schema/studentProfileSchema";
 import { toast } from "sonner";
+import { useCreateProfileMutation } from "@/api";
+import { Navigate } from "react-router";
 
 const TABS = ["personal", "academic", "documents"] as const;
 type Tabs = (typeof TABS)[number];
+
 const CreateStudent = () => {
   const [activeTab, setActiveTab] = useState<Tabs>("personal");
 
+  const [createStudent, { isSuccess, data, isLoading, isError, error }] =
+    useCreateProfileMutation();
+  if (isSuccess) {
+    toast.success(data.message);
+    return <Navigate to={"/agent/students"}></Navigate>;
+  }
+
+  if (isError) {
+    toast.error(
+      (error as any)?.response?.message || "Something unexpected happened"
+    );
+  }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = parseSchema<typeof studentProfileSchema>(
-      e.currentTarget,
-      studentProfileSchema
-    );
+    const result = parseSchema<Student>(e.currentTarget, studentProfileSchema);
     if (result.error) {
       toast.error(result.error);
       return;
     }
-    console.log(result.data);
+    const formData = createFormData(result.data!);
+    createStudent(formData);
   };
 
   return (
@@ -56,6 +72,7 @@ const CreateStudent = () => {
                 <div className="grid w-full grid-cols-3 mb-4">
                   {TABS.map((t) => (
                     <Button
+                      type="button"
                       className="capitalize"
                       onClick={() => setActiveTab(t)}
                       variant={activeTab === t ? "default" : "outline"}
@@ -79,7 +96,6 @@ const CreateStudent = () => {
                         name="firstName"
                         placeholder="John"
                         defaultValue={"john"}
-                        required
                       />
                     </div>
                     <div className="space-y-3">
@@ -88,7 +104,6 @@ const CreateStudent = () => {
                         id="lastName"
                         name="lastName"
                         placeholder="Doe"
-                        required
                         defaultValue={"doe"}
                       />
                     </div>
@@ -101,7 +116,6 @@ const CreateStudent = () => {
                       name="email"
                       placeholder="john.doe@example.com"
                       defaultValue="john.doe@example.com"
-                      required
                     />
                   </div>
                   <div className="space-y-3">
@@ -112,12 +126,11 @@ const CreateStudent = () => {
                       name="contactNo"
                       placeholder="+1 (555) 000-0000"
                       defaultValue={"01329553511"}
-                      required
                     />
                   </div>
                   <div className="space-y-3">
                     <Label htmlFor="dob">Date of Birth</Label>
-                    <Input id="dob" name="dateOfBirth" type="date" required />
+                    <Input id="dob" type="date" name="dateOfBirth" />
                   </div>
                 </section>
 
@@ -134,7 +147,6 @@ const CreateStudent = () => {
                       type="number"
                       step="0.01"
                       placeholder="3.8"
-                      required
                       defaultValue={"4.5"}
                     />
                   </div>
@@ -155,7 +167,6 @@ const CreateStudent = () => {
                       name="major"
                       placeholder="Computer Science"
                       defaultValue="computerScience"
-                      required
                     />
                   </div>
                   <div className="space-y-3">
@@ -165,7 +176,6 @@ const CreateStudent = () => {
                       name="university"
                       placeholder="Harvard University"
                       defaultValue={"harvard-university"}
-                      required
                     />
                   </div>
                 </section>
@@ -181,7 +191,6 @@ const CreateStudent = () => {
                       name="passport"
                       fnWithFile={console.log}
                       accept="application/pdf"
-                      required
                     />
                   </div>
                   <div className="space-y-3">
@@ -190,7 +199,6 @@ const CreateStudent = () => {
                       name="transcripts"
                       fnWithFile={console.log}
                       accept="application/pdf"
-                      required
                     />
                   </div>
                   <div className="space-y-3">
@@ -199,7 +207,6 @@ const CreateStudent = () => {
                       name="photo"
                       fnWithFile={console.log}
                       accept="image/png, image/jpg"
-                      required
                     />
                   </div>
                 </section>
@@ -235,7 +242,7 @@ const CreateStudent = () => {
                   <ArrowRightCircle />
                 </Button>
                 <Button
-                  disabled={activeTab !== "documents"}
+                  disabled={activeTab !== "documents" || isLoading}
                   className="ml-auto"
                   type="submit"
                 >

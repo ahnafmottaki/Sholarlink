@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/hooks/useAxios";
+import type { ServerError } from "@/types/axios";
 import { type BaseQueryFn, type EndpointBuilder } from "@reduxjs/toolkit/query";
 import type { AxiosError, AxiosRequestConfig } from "axios";
 const axiosBaseQuery =

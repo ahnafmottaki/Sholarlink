@@ -33,4 +33,6 @@ const studentProfileSchema = z.object({
     .refine((file) => file.size <= 1024 * 1024, "photo must be less than 1MB"),
 });
 
-export { studentProfileSchema };
+type Student = z.infer<typeof studentProfileSchema>;
+
+export { studentProfileSchema, type Student };

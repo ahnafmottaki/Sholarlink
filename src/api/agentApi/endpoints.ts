@@ -8,6 +8,13 @@ const endpoints = (builder: Builder<"agentApi">) => ({
       method: "GET",
     }),
   }),
+  createProfile: builder.mutation<ServerRes, FormData>({
+    query: (formData) => ({
+      url: "",
+      method: "POST",
+      body: formData,
+    }),
+  }),
 });
 
 export { endpoints };
