@@ -12,10 +12,8 @@ import {
 import DropFile from "@/components/custom/DropFile";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import { createFormData, parseSchema } from "@/lib/utils";
-import {
-  studentProfileSchema,
-  type Student,
-} from "@/zod-schema/studentProfileSchema";
+import { studentProfileSchema } from "@/zod-schema/studentProfileSchema";
+import type { StudentCreationType } from "@/types/student";
 import { toast } from "sonner";
 import { useCreateProfileMutation } from "@/api";
 import { Navigate } from "react-router";
@@ -40,7 +38,10 @@ const CreateStudent = () => {
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = parseSchema<Student>(e.currentTarget, studentProfileSchema);
+    const result = parseSchema<StudentCreationType>(
+      e.currentTarget,
+      studentProfileSchema
+    );
     if (result.error) {
       toast.error(result.error);
       return;

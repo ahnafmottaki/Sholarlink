@@ -37,7 +37,6 @@ const ManageAgents = () => {
       </div>
     );
   }
-  console.log(data);
   return (
     <>
       <div className="mb-8">

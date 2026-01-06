@@ -11,4 +11,8 @@ const agentApi = createApi({
 });
 
 export { agentApi };
-export const { useGetDashboardQuery, useCreateProfileMutation } = agentApi;
+export const {
+  useGetDashboardQuery,
+  useCreateProfileMutation,
+  useGetStudentsQuery,
+} = agentApi;
