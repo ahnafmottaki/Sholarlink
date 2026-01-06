@@ -1,11 +1,20 @@
 import { useGetStudentsQuery } from "@/api";
 import Loader from "@/components/custom/Loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Table } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import ManageStudent from "./ManageStudent";
+import { Button } from "@/components/ui/button";
+import { Eye } from "lucide-react";
 
 const AgentStudents = () => {
-  const { isSuccess, data, isFetching } = useGetStudentsQuery();
+  const { isSuccess, data, isFetching, isError, error } = useGetStudentsQuery();
   if (isFetching) {
     return (
       <div className="min-h-screen w-full flex justify-center items-center">
@@ -13,6 +22,12 @@ const AgentStudents = () => {
       </div>
     );
   }
+
+  if (isError && error) {
+    return <p>Something Unexpected Happened</p>;
+  }
+
+  console.log(data?.data);
 
   return (
     <>
@@ -31,7 +46,6 @@ const AgentStudents = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Student Name</TableHead>
-                <TableHead>Agent</TableHead>
                 <TableHead>University</TableHead>
                 <TableHead>Major</TableHead>
                 <TableHead>SatScore</TableHead>
@@ -41,6 +55,20 @@ const AgentStudents = () => {
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
+            <TableBody>
+              {isSuccess &&
+                data &&
+                data.data.map((student) => (
+                  <ManageStudent key={student._id} {...student}>
+                    <TableCell>
+                      <Button size="sm" variant="outline">
+                        <Eye className="h-4 w-4 mr-1" />
+                        View
+                      </Button>
+                    </TableCell>
+                  </ManageStudent>
+                ))}
+            </TableBody>
           </Table>
         </CardContent>
       </Card>

@@ -28,22 +28,21 @@ const ManageStudent: FC<ManageStudentProps> = (props) => {
         return "warning";
     }
   };
+  console.log(props);
 
   return (
     <>
-      <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">{firstName + lastName}</TableCell>
-          {ownedBy && <TableCell>{ownedBy}</TableCell>}
-          <TableCell>{university}</TableCell>
-          <TableCell>{major}</TableCell>
-          <TableCell>{satScore}</TableCell>
-          <TableCell>{gpa}</TableCell>
-          <TableCell>{contactNo}</TableCell>
-          <TableCell>{new Date(createdAt).toLocaleDateString()}</TableCell>
-          {children}
-        </TableRow>
-      </TableBody>
+      <TableRow>
+        <TableCell className="font-medium">{firstName + lastName}</TableCell>
+        {ownedBy && <TableCell>{ownedBy}</TableCell>}
+        <TableCell>{university}</TableCell>
+        <TableCell>{major}</TableCell>
+        <TableCell>{satScore}</TableCell>
+        <TableCell>{gpa}</TableCell>
+        <TableCell>{contactNo}</TableCell>
+        <TableCell>{new Date(createdAt).toLocaleString()}</TableCell>
+        {children}
+      </TableRow>
     </>
   );
 };

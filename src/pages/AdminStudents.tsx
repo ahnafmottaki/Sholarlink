@@ -1,3 +1,5 @@
+import { useGetStudentsQuery } from "@/api";
+import Loader from "@/components/custom/Loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -5,12 +7,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  Table,
+  TableBody,
 } from "@/components/ui/table";
-import type { ManageStudentProps } from "@/types/student";
-import { CheckCircle, Download, Eye, Table, XCircle } from "lucide-react";
+import { CheckCircle, Download, Eye, XCircle } from "lucide-react";
+import ManageStudent from "./ManageStudent";
 
 const AdminStudents = () => {
-  const students: ManageStudentProps[] = [];
+  const { isSuccess, data, isFetching, isError, error } = useGetStudentsQuery();
+  if (isFetching) {
+    return (
+      <div className="min-h-screen w-full flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (isError && error) {
+    return <p>Something Unexpected Happened</p>;
+  }
+
+  console.log(data?.data);
   const actionCell = (
     <TableCell className="text-right">
       <div className="flex gap-2 justify-end">
@@ -62,6 +79,15 @@ const AdminStudents = () => {
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
+            <TableBody>
+              {isSuccess &&
+                data &&
+                data.data.map((student) => (
+                  <ManageStudent key={student._id} {...student}>
+                    {actionCell}
+                  </ManageStudent>
+                ))}
+            </TableBody>
           </Table>
         </CardContent>
       </Card>
