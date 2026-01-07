@@ -17,17 +17,6 @@ const ManageStudent: FC<ManageStudentProps> = (props) => {
     children,
   } = props;
 
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case "success":
-        return "success";
-      case "rejected":
-        return "destructive";
-      default:
-        return "warning";
-    }
-  };
-
   return (
     <>
       <TableRow>

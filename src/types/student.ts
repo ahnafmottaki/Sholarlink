@@ -8,7 +8,7 @@ type Student = {
   [key in keyof StudentCreationType]: key extends Documents
     ? string
     : StudentCreationType[key];
-} & { _id: string };
+} & { _id: string; createdAt: string; updatedAt: string };
 
 type ManageStudentProps = Pick<
   Student,
@@ -20,13 +20,12 @@ type ManageStudentProps = Pick<
   | "satScore"
   | "gpa"
   | "contactNo"
+  | "createdAt"
 > & {
   ownedBy?: {
     _id: string;
     name: string;
   };
-  createdAt: string;
-  updatedAt: string;
   children?: ReactNode;
 };
 

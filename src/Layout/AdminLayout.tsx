@@ -10,7 +10,7 @@ const AdminLayout = () => {
     {
       icon: FileText,
       label: "Manage Students",
-      path: "/admin/manageStudents",
+      path: "/admin/students",
     },
   ];
   return (

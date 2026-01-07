@@ -15,4 +15,5 @@ export const {
   useGetDashboardQuery,
   useCreateProfileMutation,
   useGetStudentsQuery,
+  useGetStudentQuery,
 } = agentApi;

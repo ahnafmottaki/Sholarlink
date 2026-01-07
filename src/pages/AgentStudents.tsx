@@ -12,6 +12,7 @@ import {
 import ManageStudent from "./ManageStudent";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
+import { Link } from "react-router";
 
 const AgentStudents = () => {
   const { isSuccess, data, isFetching, isError, error } = useGetStudentsQuery();
@@ -59,10 +60,12 @@ const AgentStudents = () => {
                 data.data.map((student) => (
                   <ManageStudent key={student._id} {...student}>
                     <TableCell>
-                      <Button size="sm" variant="outline">
-                        <Eye className="h-4 w-4 mr-1" />
-                        View
-                      </Button>
+                      <Link to={`/agent/students/${student._id}`}>
+                        <Button size="sm" variant="outline">
+                          <Eye className="h-4 w-4 mr-1" />
+                          View
+                        </Button>
+                      </Link>
                     </TableCell>
                   </ManageStudent>
                 ))}

@@ -14,7 +14,7 @@ import { Link } from "react-router";
 import { useGetDashboardQuery } from "@/api/agentApi";
 
 const AgentDashboard = () => {
-  const { data, isFetching } = useGetDashboardQuery();
+  const { isFetching } = useGetDashboardQuery();
   if (isFetching) {
     return <div>Loading...</div>;
   }

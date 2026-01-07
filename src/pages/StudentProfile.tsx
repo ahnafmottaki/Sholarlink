@@ -8,104 +8,21 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Download,
   FileText,
   User,
   GraduationCap,
   Mail,
   Phone,
-  MapPin,
   Calendar,
+  View,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import type { FC } from "react";
+import type { Student } from "@/types/student";
 
-const StudentProfile = () => {
-  // Mock student data
-  const student = {
-    name: "John Doe",
-    email: "john.doe@email.com",
-    phone: "+1 234 567 8900",
-    dateOfBirth: "1998-05-15",
-    nationality: "United States",
-    address: "123 Main Street, New York, NY 10001",
-    university: "Harvard University",
-    course: "Computer Science",
-    intake: "Fall 2024",
-    status: "Pending",
-    submittedDate: "2024-01-15",
-    documents: [
-      {
-        name: "Passport",
-        type: "PDF",
-        size: "2.5 MB",
-        uploadDate: "2024-01-10",
-      },
-      {
-        name: "Academic Transcripts",
-        type: "PDF",
-        size: "1.8 MB",
-        uploadDate: "2024-01-12",
-      },
-      {
-        name: "Statement of Purpose",
-        type: "PDF",
-        size: "890 KB",
-        uploadDate: "2024-01-14",
-      },
-      {
-        name: "Recommendation Letter 1",
-        type: "PDF",
-        size: "1.2 MB",
-        uploadDate: "2024-01-14",
-      },
-      {
-        name: "Recommendation Letter 2",
-        type: "PDF",
-        size: "1.1 MB",
-        uploadDate: "2024-01-15",
-      },
-      {
-        name: "English Proficiency Test",
-        type: "PDF",
-        size: "750 KB",
-        uploadDate: "2024-01-15",
-      },
-    ],
-  };
-
-  const getStatusVariant = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "approved":
-        return "success";
-      case "rejected":
-        return "destructive";
-      default:
-        return "warning";
-    }
-  };
-
-  const handleDownload = (documentName: string) => {
-    console.log("Downloading:", documentName);
-  };
-
+const StudentProfile: FC<Student> = (student) => {
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Student Profile</h1>
-          <p className="text-muted-foreground mt-1">
-            View complete student information and documents
-          </p>
-        </div>
-        <Badge
-          variant={getStatusVariant(student.status)}
-          className="text-sm px-4 py-2"
-        >
-          {student.status}
-        </Badge>
-      </div>
-
+    <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Personal Information */}
         <Card className="lg:col-span-2">
@@ -119,7 +36,9 @@ const StudentProfile = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Full Name</p>
-                <p className="font-medium">{student.name}</p>
+                <p className="font-medium capitalize">
+                  {student.firstName + " " + student.lastName}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Date of Birth</p>
@@ -136,29 +55,29 @@ const StudentProfile = () => {
                 <p className="text-sm text-muted-foreground">Phone</p>
                 <p className="font-medium flex items-center gap-2">
                   <Phone className="h-4 w-4 text-muted-foreground" />
-                  {student.phone}
+                  {student.contactNo}
                 </p>
               </div>
-              <div>
+              {/* <div>
                 <p className="text-sm text-muted-foreground">Nationality</p>
                 <p className="font-medium">{student.nationality}</p>
-              </div>
+              </div> */}
               <div>
                 <p className="text-sm text-muted-foreground">Submitted On</p>
                 <p className="font-medium flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
-                  {student.submittedDate}
+                  {new Date(student.createdAt).toLocaleString()}
                 </p>
               </div>
             </div>
             <Separator />
-            <div>
+            {/* <div>
               <p className="text-sm text-muted-foreground">Address</p>
               <p className="font-medium flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
                 {student.address}
               </p>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
 
@@ -176,12 +95,16 @@ const StudentProfile = () => {
               <p className="font-medium">{student.university}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Course</p>
-              <p className="font-medium">{student.course}</p>
+              <p className="text-sm text-muted-foreground">satScore</p>
+              <p className="font-medium">{student.satScore}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Intake</p>
-              <p className="font-medium">{student.intake}</p>
+              <p className="text-sm text-muted-foreground">Gpa</p>
+              <p className="font-medium">{student.gpa}</p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Major</p>
+              <p className="font-medium">{student.major}</p>
             </div>
           </CardContent>
         </Card>
@@ -200,9 +123,9 @@ const StudentProfile = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {student.documents.map((doc, index) => (
+            {["passport", "transcripts", "photo"].map((docName) => (
               <Card
-                key={index}
+                key={docName}
                 className="border-2 hover:border-primary/50 transition-colors"
               >
                 <CardContent className="p-4">
@@ -211,38 +134,29 @@ const StudentProfile = () => {
                       <div className="flex items-center gap-2 mb-2">
                         <FileText className="h-5 w-5 text-primary shrink-0" />
                         <p className="font-medium text-sm truncate">
-                          {doc.name}
-                        </p>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-xs text-muted-foreground">
-                          Type: {doc.type}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          Size: {doc.size}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          Uploaded: {doc.uploadDate}
+                          {docName}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="w-full mt-3"
-                    onClick={() => handleDownload(doc.name)}
-                  >
-                    <Download className="h-4 w-4 mr-2" />
-                    Download
-                  </Button>
+                  <a href={student[docName as keyof Student]} target="_blank">
+                    <Button
+                      size="sm"
+                      type="button"
+                      variant="outline"
+                      className="w-full mt-3"
+                    >
+                      <View className="h-4 w-4 mr-2" />
+                      View
+                    </Button>
+                  </a>
                 </CardContent>
               </Card>
             ))}
           </div>
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 };
 

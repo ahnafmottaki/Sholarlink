@@ -13,7 +13,7 @@ const AgentLayout = () => {
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/agent" },
     { icon: UserPlus, label: "Create Profile", path: "/agent/createStudent" },
-    { icon: Users, label: "My Students", path: "/agent/myStudents" },
+    { icon: Users, label: "My Students", path: "/agent/students" },
     { icon: Wallet, label: "Wallet", path: "/agent/wallet" },
     { icon: Settings, label: "Settings", path: "/agent/settings" },
   ];

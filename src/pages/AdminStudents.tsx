@@ -10,8 +10,9 @@ import {
   Table,
   TableBody,
 } from "@/components/ui/table";
-import { CheckCircle, Download, Eye, XCircle } from "lucide-react";
+import { CheckCircle, Eye, XCircle } from "lucide-react";
 import ManageStudent from "./ManageStudent";
+import { Link } from "react-router";
 
 const AdminStudents = () => {
   const { isSuccess, data, isFetching, isError, error } = useGetStudentsQuery();
@@ -26,25 +27,6 @@ const AdminStudents = () => {
   if (isError && error) {
     return <p>Something Unexpected Happened</p>;
   }
-
-  const actionCell = (
-    <TableCell className="text-right">
-      <div className="flex gap-2 justify-end">
-        <Button size="sm" variant="outline">
-          <Eye className="h-4 w-4 mr-1" />
-          View
-        </Button>
-        <Button size="sm" variant="outline" className="text-success">
-          <CheckCircle className="h-4 w-4 mr-1" />
-          Approve
-        </Button>
-        <Button size="sm" variant="outline" className="text-destructive">
-          <XCircle className="h-4 w-4 mr-1" />
-          Reject
-        </Button>
-      </div>
-    </TableCell>
-  );
 
   return (
     <>
@@ -78,7 +60,32 @@ const AdminStudents = () => {
                 data &&
                 data.data.map((student) => (
                   <ManageStudent key={student._id} {...student}>
-                    {actionCell}
+                    <TableCell className="text-right">
+                      <div className="flex gap-2 justify-end">
+                        <Link to={`/admin/students/${student._id}`}>
+                          <Button size="sm" variant="outline">
+                            <Eye className="h-4 w-4 mr-1" />
+                            View
+                          </Button>
+                        </Link>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="text-success"
+                        >
+                          <CheckCircle className="h-4 w-4 mr-1" />
+                          Approve
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="text-destructive"
+                        >
+                          <XCircle className="h-4 w-4 mr-1" />
+                          Reject
+                        </Button>
+                      </div>
+                    </TableCell>
                   </ManageStudent>
                 ))}
             </TableBody>
