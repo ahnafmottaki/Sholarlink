@@ -188,27 +188,15 @@ const CreateStudent = () => {
                 >
                   <div className="space-y-3">
                     <Label>Passport Copy</Label>
-                    <DropFile
-                      name="passport"
-                      fnWithFile={console.log}
-                      accept="application/pdf"
-                    />
+                    <DropFile name="passport" accept="application/pdf" />
                   </div>
                   <div className="space-y-3">
                     <Label>Academic Transcripts</Label>
-                    <DropFile
-                      name="transcripts"
-                      fnWithFile={console.log}
-                      accept="application/pdf"
-                    />
+                    <DropFile name="transcripts" accept="application/pdf" />
                   </div>
                   <div className="space-y-3">
                     <Label>Student Photo</Label>
-                    <DropFile
-                      name="photo"
-                      fnWithFile={console.log}
-                      accept="image/png, image/jpg"
-                    />
+                    <DropFile name="photo" accept="image/png, image/jpg" />
                   </div>
                 </section>
               </section>

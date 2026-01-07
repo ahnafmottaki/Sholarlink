@@ -54,11 +54,9 @@ const useAxios = () => {
         return res;
       },
       (error: AxiosError) => {
-        console.log("from interceptor", error);
         if (error.response) {
           const status = error.response.status;
           const message = getErrorMessage(error);
-          console.log("displaying error messagea");
           if (status !== 401 && status !== 403 && status !== 408) {
             toast.error(message);
           }

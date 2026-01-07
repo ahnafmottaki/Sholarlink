@@ -1,6 +1,7 @@
 import type { ServerRes } from "@/types/axios";
 import type { Builder } from "../baseApi";
 import type { GetAgent, ManageAgentRes } from "@/types/admin-response";
+import type { ManageStudentProps } from "@/types/student";
 
 export const endpoints = (builder: Builder<"adminApi", "Agent">) => ({
   getAdminDashboard: builder.query<ServerRes, void>({
@@ -54,5 +55,11 @@ export const endpoints = (builder: Builder<"adminApi", "Agent">) => ({
         { type: "Agent", id: "LIST" },
       ];
     },
+  }),
+  getStudents: builder.query<ServerRes<ManageStudentProps[]>, void>({
+    query: () => ({
+      url: "/students",
+      method: "GET",
+    }),
   }),
 });

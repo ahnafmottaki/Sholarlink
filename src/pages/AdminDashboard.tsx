@@ -7,10 +7,8 @@ import Loader from "@/components/custom/Loader";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const { data, isFetching, isSuccess } = useGetAdminDashboardQuery();
-  if (isSuccess && !isFetching && data) {
-    console.log(data);
-  }
+  const { isFetching } = useGetAdminDashboardQuery();
+
   const stats = [
     {
       title: "Total Agents",

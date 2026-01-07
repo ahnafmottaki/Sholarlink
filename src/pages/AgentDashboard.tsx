@@ -18,7 +18,6 @@ const AgentDashboard = () => {
   if (isFetching) {
     return <div>Loading...</div>;
   }
-  console.log(data);
   const stats = [
     {
       label: "Total Application",

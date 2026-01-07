@@ -1,4 +1,4 @@
-import { useGetStudentsQuery } from "@/api";
+import { useGetStudentsQuery } from "@/api/adminApi";
 import Loader from "@/components/custom/Loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,7 +27,6 @@ const AdminStudents = () => {
     return <p>Something Unexpected Happened</p>;
   }
 
-  console.log(data?.data);
   const actionCell = (
     <TableCell className="text-right">
       <div className="flex gap-2 justify-end">
@@ -35,11 +34,6 @@ const AdminStudents = () => {
           <Eye className="h-4 w-4 mr-1" />
           View
         </Button>
-        <Button size="sm" variant="outline">
-          <Download className="h-4 w-4 mr-1" />
-          Download
-        </Button>
-
         <Button size="sm" variant="outline" className="text-success">
           <CheckCircle className="h-4 w-4 mr-1" />
           Approve

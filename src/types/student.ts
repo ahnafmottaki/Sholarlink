@@ -21,7 +21,10 @@ type ManageStudentProps = Pick<
   | "gpa"
   | "contactNo"
 > & {
-  ownedBy?: string;
+  ownedBy?: {
+    _id: string;
+    name: string;
+  };
   createdAt: string;
   updatedAt: string;
   children?: ReactNode;

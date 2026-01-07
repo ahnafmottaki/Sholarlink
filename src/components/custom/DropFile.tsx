@@ -18,14 +18,13 @@ const DropFile: React.FC<DropFileProp> = ({ fnWithFile, ...props }) => {
   }, [file, fnWithFile]);
 
   const onDragOver = (e: React.DragEvent) => {
-    console.log("drag over");
     e.preventDefault();
     setIsDragOver(true);
   };
 
   const onDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
-    console.log("drag leave");
+
     setIsDragOver(false);
   };
 
@@ -37,7 +36,6 @@ const DropFile: React.FC<DropFileProp> = ({ fnWithFile, ...props }) => {
       const selectedFile = dropFiles[0];
       const acceptedType = fileInputRef.current?.accept;
       if (selectedFile.type !== acceptedType) {
-        console.log(selectedFile.type);
         toast.error(`Only ${acceptedType} files are allowed`);
         return;
       }

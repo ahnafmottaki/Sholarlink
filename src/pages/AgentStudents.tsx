@@ -1,4 +1,4 @@
-import { useGetStudentsQuery } from "@/api";
+import { useGetStudentsQuery } from "@/api/agentApi";
 import Loader from "@/components/custom/Loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -26,8 +26,6 @@ const AgentStudents = () => {
   if (isError && error) {
     return <p>Something Unexpected Happened</p>;
   }
-
-  console.log(data?.data);
 
   return (
     <>

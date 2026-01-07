@@ -10,8 +10,6 @@ const AdminLogin = () => {
   const location = useLocation();
   const [adminLogin, { isLoading, isSuccess, data }] = useAdminLoginMutation();
   if (!isLoading && isSuccess && data) {
-    console.log("Login successful");
-    console.log(location.state?.from);
     return <Navigate to={location.state?.from || "/admin"}></Navigate>;
   }
   const loginHandler = (event: FormEvent<HTMLFormElement>) => {

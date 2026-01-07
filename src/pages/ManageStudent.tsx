@@ -1,5 +1,4 @@
-import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import { TableCell, TableRow } from "@/components/ui/table";
 import type { ManageStudentProps } from "@/types/student";
 import { type FC } from "react";
 
@@ -28,13 +27,16 @@ const ManageStudent: FC<ManageStudentProps> = (props) => {
         return "warning";
     }
   };
-  console.log(props);
 
   return (
     <>
       <TableRow>
-        <TableCell className="font-medium">{firstName + lastName}</TableCell>
-        {ownedBy && <TableCell>{ownedBy}</TableCell>}
+        <TableCell className="font-medium capitalize">
+          {firstName + " " + lastName}
+        </TableCell>
+        {ownedBy && (
+          <TableCell className="capitalize">{ownedBy.name}</TableCell>
+        )}
         <TableCell>{university}</TableCell>
         <TableCell>{major}</TableCell>
         <TableCell>{satScore}</TableCell>
