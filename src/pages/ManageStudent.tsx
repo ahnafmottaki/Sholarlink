@@ -16,6 +16,7 @@ const ManageStudent: FC<ManageStudentProps> = (props) => {
     createdAt,
     children,
   } = props;
+  console.log(ownedBy);
 
   return (
     <>

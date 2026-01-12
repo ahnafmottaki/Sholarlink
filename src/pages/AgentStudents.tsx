@@ -25,9 +25,52 @@ const AgentStudents = () => {
   }
 
   if (isError && error) {
-    return <p>Something Unexpected Happened</p>;
+    return <div>Something Unexpected Happened</div>;
   }
 
+  let content = (
+    <div className="min-h-[70vh] w-full flex flex-col justify-center items-center">
+      <p>You haven't created any Student Profile</p>
+      <Link to={"/agent/createStudent"}>
+        <Button variant={"link"}>Create Profile</Button>
+      </Link>
+    </div>
+  );
+  const hasStudent = isSuccess && data.data.length > 0;
+  if (hasStudent) {
+    content = (
+      <>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Student Name</TableHead>
+              <TableHead>University</TableHead>
+              <TableHead>Major</TableHead>
+              <TableHead>SatScore</TableHead>
+              <TableHead>Gpa</TableHead>
+              <TableHead>contactNo</TableHead>
+              <TableHead>createdAt</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.data.map((student) => (
+              <ManageStudent key={student._id} {...student}>
+                <TableCell className="flex justify-end">
+                  <Link to={`/agent/students/${student._id}`}>
+                    <Button size="sm" variant="outline">
+                      <Eye className="h-4 w-4 mr-1" />
+                      View
+                    </Button>
+                  </Link>
+                </TableCell>
+              </ManageStudent>
+            ))}
+          </TableBody>
+        </Table>
+      </>
+    );
+  }
   return (
     <>
       <div className="mb-8">
@@ -40,38 +83,7 @@ const AgentStudents = () => {
         <CardHeader>
           <CardTitle>Recent Student Profiles</CardTitle>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Student Name</TableHead>
-                <TableHead>University</TableHead>
-                <TableHead>Major</TableHead>
-                <TableHead>SatScore</TableHead>
-                <TableHead>Gpa</TableHead>
-                <TableHead>contactNo</TableHead>
-                <TableHead>createdAt</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isSuccess &&
-                data &&
-                data.data.map((student) => (
-                  <ManageStudent key={student._id} {...student}>
-                    <TableCell>
-                      <Link to={`/agent/students/${student._id}`}>
-                        <Button size="sm" variant="outline">
-                          <Eye className="h-4 w-4 mr-1" />
-                          View
-                        </Button>
-                      </Link>
-                    </TableCell>
-                  </ManageStudent>
-                ))}
-            </TableBody>
-          </Table>
-        </CardContent>
+        <CardContent>{content}</CardContent>
       </Card>
     </>
   );

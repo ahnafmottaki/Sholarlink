@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   FileText,
@@ -139,7 +138,10 @@ const StudentProfile: FC<Student> = (student) => {
                       </div>
                     </div>
                   </div>
-                  <a href={student[docName as keyof Student]} target="_blank">
+                  <a
+                    href={student[docName as keyof Omit<Student, "steps">]}
+                    target="_blank"
+                  >
                     <Button
                       size="sm"
                       type="button"

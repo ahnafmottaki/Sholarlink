@@ -17,6 +17,7 @@ import AdminAgent from "@/pages/AdminAgent";
 import AgentStudents from "@/pages/AgentStudents";
 import AdminStudents from "@/pages/AdminStudents";
 import AgentStudent from "@/pages/AgentStudent";
+import AdminStudent from "@/pages/AdminStudent";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,7 +51,7 @@ const router = createBrowserRouter([
         element: <ManageAgents />,
       },
       { path: "students", element: <AdminStudents /> },
-      { path: "students/:id", element: <AgentStudent /> },
+      { path: "students/:id", element: <AdminStudent /> },
       { path: "agent/:id", element: <AdminAgent /> },
     ],
   },

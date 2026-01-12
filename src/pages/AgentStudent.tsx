@@ -43,12 +43,16 @@ const AgentStudent = () => {
               View complete student information and documents
             </p>
           </div>
-          <Badge
-            variant={getStatusVariant("pending")}
-            className="text-sm px-4 py-2"
-          >
-            pending
-          </Badge>
+          {data &&
+            data.data.steps.map((step) => (
+              <Badge
+                key={step._id}
+                variant={step.completed ? "success" : "warning"}
+                className="text-sm px-4 py-2"
+              >
+                {step.showToAgent}
+              </Badge>
+            ))}
         </div>
         {data && <StudentProfile {...data.data} />}
       </div>

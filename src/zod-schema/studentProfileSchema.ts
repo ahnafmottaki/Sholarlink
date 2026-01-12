@@ -5,7 +5,7 @@ const studentProfileSchema = z.object({
   lastName: z.string().trim().min(1).max(10),
   email: z.email("email is required"),
   contactNo: z.string().trim().min(1).max(12),
-  dateOfBirth: z.string(),
+  dateOfBirth: z.string().min(1, "date of birth required"),
   gpa: z.string().min(1).max(5),
   satScore: z.string(),
   major: z.string().min(1).max(30),

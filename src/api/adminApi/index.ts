@@ -18,4 +18,5 @@ export const {
   useGetAgentQuery,
   useUpdateAgentStatusMutation,
   useGetStudentsQuery,
+  useGetAdminStudentQuery,
 } = adminApi;
